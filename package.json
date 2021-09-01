@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "name": "electron-lab",
+  "version": "0.0.0",
+  "scripts": {
+    "build": "father build",
+    "publish": "npm run build && lerna publish"
+  },
+  "dependencies": {
+    "father": "^2.30.8"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
+}

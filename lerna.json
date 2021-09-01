@@ -1,0 +1,16 @@
+{
+  "npmClient": "yarn",
+  "changelog": {
+    "labels": {
+      "pr(enhancement)": ":rocket: Enhancement",
+      "pr(bug)": ":bug: Bug Fix",
+      "pr(documentation)": ":book: Documentation",
+      "pr(dependency)": ":deciduous_tree: Dependency",
+      "pr(chore)": ":turtle: Chore"
+    },
+    "cacheDir": ".changelog"
+  },
+  "packages": ["packages/*"],
+  "useWorkspaces": true,
+  "version": "independent"
+}
