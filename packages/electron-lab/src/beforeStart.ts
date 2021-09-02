@@ -2,6 +2,7 @@ import { join } from 'path';
 import chalk from 'chalk';
 import { existsSync, readFileSync, appendFileSync, writeFileSync } from 'fs';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const userPackageJson = require(join(process.cwd(), 'package.json'));
 const { main } = userPackageJson;
 if (!main || main !== '.webpack/main/index.js') {

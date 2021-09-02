@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-var-requires */
 import Webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import proc, { ChildProcess } from 'child_process';
@@ -76,6 +76,7 @@ appCompiler.watch(
   }
 );
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const devServer = new WebpackDevServer(
   {

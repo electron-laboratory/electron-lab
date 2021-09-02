@@ -4,12 +4,22 @@
   "version": "0.0.0",
   "scripts": {
     "build": "father build",
-    "publish": "npm run build && lerna publish"
-  },
-  "dependencies": {
-    "father": "^2.30.8"
+    "publish": "npm run build && lerna publish",
+    "prepare": "husky install",
+    "lint": "eslint packages/*/src/**/*"
   },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.30.0",
+    "@typescript-eslint/parser": "^4.30.0",
+    "@umijs/fabric": "^2.6.7",
+    "chalk": "^4.1.2",
+    "eslint": "^7.32.0",
+    "eslint-plugin-react": "^7.25.1",
+    "father": "^2.30.8",
+    "husky": "^7.0.2",
+    "stylelint": "^13.13.1"
+  }
 }

@@ -1,5 +1,5 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const { productName } = require('../package.json');
-const { resolve } = require('path');
 
 module.exports = {
   electronDownload: {
