@@ -19,10 +19,10 @@ module.exports = {
       {
         test: /\.less$/i,
         use: [
-          'style-loader',
-          'css-loader',
+          require.resolve('style-loader'),
+          require.resolve('css-loader'),
           {
-            loader: 'less-loader',
+            loader: require.resolve('less-loader'),
             options: {
               lessOptions: {
                 javascriptEnabled: true,
@@ -33,17 +33,20 @@ module.exports = {
       },
       {
         test: /\.css$i/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+        use: [MiniCssExtractPlugin.loader, require.resolve('css-loader')],
       },
       {
         test: /\.(ts|tsx|js|jsx)$/,
         use: {
-          loader: 'babel-loader',
+          loader: require.resolve('babel-loader'),
           options: {
-            presets: ['@babel/preset-react', '@babel/preset-typescript'],
+            presets: [
+              require.resolve('@babel/preset-react'),
+              require.resolve('@babel/preset-typescript'),
+            ],
             plugins: [
               [
-                'babel-plugin-import',
+                require.resolve('babel-plugin-import'),
                 {
                   libraryName: 'antd',
                   libraryDirectory: 'es',
@@ -58,7 +61,7 @@ module.exports = {
         test: /(\.svg)|(\.png)$/,
         use: [
           {
-            loader: 'url-loader',
+            loader: require.resolve('url-loader'),
           },
         ],
       },
