@@ -7,6 +7,7 @@ import { resolve, join } from 'path';
 import { merge } from 'webpack-merge';
 import readline, { Interface } from 'readline';
 import chalk from 'chalk';
+import { getWindows } from '../utils';
 
 const configPath = resolve(__dirname, '../../config');
 const mainConfig = require(join(configPath, './main.webpack.config'));
@@ -27,10 +28,10 @@ class ElectronProcessManager {
         input: this.electronProcess.stdout!,
         terminal: false,
       })
-      .on('line', (line) => {
+      .on('line', line => {
         console.log(chalk.cyan(`>> `), line);
       });
-    this.electronProcess.on('error', (err) => {
+    this.electronProcess.on('error', err => {
       console.log(err);
     });
   }
@@ -43,20 +44,31 @@ class ElectronProcessManager {
 
 const manager = new ElectronProcessManager();
 
+// 多窗口时的 Define 列表
+const defines = getWindows()
+  .map(
+    entryName =>
+      new Webpack.DefinePlugin({
+        [`WEBPACK_ENTRY_${entryName}`]: `"http://localhost:${port}/${entryName}.html"`,
+      }),
+  )
+  // suit single window
+  .concat([
+    new Webpack.DefinePlugin({
+      WEBPACK_ENTRY: `"http://localhost:${port}"`,
+    }),
+  ]);
+
 const appCompiler = Webpack(
   merge(mainConfig, {
     mode: 'development',
-    plugins: [
-      new Webpack.DefinePlugin({
-        WEBPACK_ENTRY: `"http://localhost:${port}"`,
-      }),
-    ],
-  })
+    plugins: [...defines],
+  }),
 );
 const viewCompiler = Webpack(
   merge(rendererConfig, {
     mode: 'development',
-  })
+  }),
 );
 
 appCompiler.watch(
@@ -73,7 +85,7 @@ appCompiler.watch(
       return;
     }
     manager.start();
-  }
+  },
 );
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -82,7 +94,7 @@ const devServer = new WebpackDevServer(
   {
     port,
   },
-  viewCompiler
+  viewCompiler,
 );
 
 devServer.listen(port, '127.0.0.1', () => {

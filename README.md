@@ -67,3 +67,29 @@ $ yarn build
 ```
 
 结果将会出现在 `dist` 目录中。
+
+## 文档
+
+### 使用多窗口
+
+如果希望在应用中开发多个窗口，electron-lab 约定 `src/renderer/windows` 作为窗口的目录，在应用启动时会直接在该目录中查找。每一个目录都是一个独立的应用。
+
+以 `settings` 窗口为例：
+
+1. 创建入口文件：`src/renderer/windows/settings/index.tsx`
+
+```ts
+document.write('settings');
+```
+
+> 模版 html 将会使用 `src/renderer/public/index.html`。
+
+2. webpack 配置了向主进程注入 `WEBPACK_ENTRY_settings` 变量，需要自行 `declare`，然后引用。
+
+```ts
+declare const WEBPACK_ENTRY_settings: string;
+
+const subWindow = new BrowserWindow({});
+
+subWindow.loadURL(WEBPACK_ENTRY_settings);
+```
