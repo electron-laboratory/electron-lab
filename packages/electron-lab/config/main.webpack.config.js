@@ -17,9 +17,9 @@ module.exports = {
       {
         test: /\.(ts|js)$/,
         use: {
-          loader: require.resolve('babel-loader'),
+          loader: 'babel-loader',
           options: {
-            presets: [require.resolve('@babel/preset-typescript')],
+            presets: ['@babel/preset-typescript'],
           },
         },
       },

@@ -19,10 +19,10 @@ module.exports = {
       {
         test: /\.less$/i,
         use: [
-          require.resolve('style-loader'),
-          require.resolve('css-loader'),
+          'style-loader',
+          'css-loader',
           {
-            loader: require.resolve('less-loader'),
+            loader: 'less-loader',
             options: {
               lessOptions: {
                 javascriptEnabled: true,
@@ -46,15 +46,12 @@ module.exports = {
       {
         test: /\.(ts|tsx|js|jsx)$/,
         use: {
-          loader: require.resolve('babel-loader'),
+          loader: 'babel-loader',
           options: {
-            presets: [
-              require.resolve('@babel/preset-react'),
-              require.resolve('@babel/preset-typescript'),
-            ],
+            presets: ['@babel/preset-react', '@babel/preset-typescript'],
             plugins: [
               [
-                require.resolve('babel-plugin-import'),
+                'babel-plugin-import',
                 {
                   libraryName: 'antd',
                   libraryDirectory: 'es',
@@ -69,7 +66,7 @@ module.exports = {
         test: /(\.svg)|(\.png)$/,
         use: [
           {
-            loader: require.resolve('url-loader'),
+            loader: 'url-loader',
           },
         ],
       },
@@ -77,6 +74,9 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json'],
+    alias: {
+      react: resolve(process.cwd(), 'node_modules/react/index.js'),
+    },
   },
   plugins: [
     new HtmlWebpackPlugin({
