@@ -8,6 +8,7 @@ import moment from 'moment';
 import { resolve, join } from 'path';
 import { existsSync } from 'fs';
 import chalk from 'chalk';
+import { getWindows } from '../utils';
 
 const configPath = resolve(__dirname, '../../config');
 
@@ -37,16 +38,25 @@ rimraf.sync(join(process.cwd(), '.webpack'));
 
 // 先构建 webpack 产物
 
-const buildApp = new Promise<void>((resolve) => {
+const buildApp = new Promise<void>(resolve => {
+  const defines = getWindows()
+    .map(
+      entryName =>
+        new Webpack.DefinePlugin({
+          [`WEBPACK_ENTRY_${entryName}`]: `\`file://\${require('path').resolve(__dirname, '../renderer/${entryName}.html')}\``,
+        }),
+    )
+    .concat([
+      // suit single window
+      new Webpack.DefinePlugin({
+        WEBPACK_ENTRY: `\`file://\${require('path').resolve(__dirname, '../renderer/index.html')}\``,
+      }),
+    ]);
   const appCompiler = Webpack(
     merge(mainConfig, {
       mode: webpackMode,
-      plugins: [
-        new Webpack.DefinePlugin({
-          WEBPACK_ENTRY: `\`file://\${require('path').resolve(__dirname, '../renderer/index.html')}\``,
-        }),
-      ],
-    })
+      plugins: [...defines],
+    }),
   );
   appCompiler.run(() => {
     console.log(chalk.green('[electron-lab] done main build.'));
@@ -54,11 +64,11 @@ const buildApp = new Promise<void>((resolve) => {
   });
 });
 
-const buildRenderer = new Promise<void>((resolve) => {
+const buildRenderer = new Promise<void>(resolve => {
   const viewCompiler = Webpack(
     merge(rendererConfig, {
       mode: webpackMode,
-    })
+    }),
   );
   viewCompiler.run(() => {
     console.log(chalk.green('[electron-lab] done renderer build.'));
@@ -99,14 +109,14 @@ const buildElectron = () => {
             nsis: {
               artifactName: `\${productName}-setup-\${version}.\${ext}`,
             },
-          }
+          },
     ),
   })
-    .then((res) => {
+    .then(res => {
       console.log(res);
       process.exit();
     })
-    .catch((err) => {
+    .catch(err => {
       console.log(err);
     });
 };

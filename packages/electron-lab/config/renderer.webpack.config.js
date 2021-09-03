@@ -2,11 +2,29 @@
 const { resolve } = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { getWindows } = require('../lib/utils');
+
+const windows = getWindows();
+
+const entry = windows.reduce(
+  (prev, current) => {
+    return { ...prev, [current]: resolve(process.cwd(), `src/renderer/windows/${current}`) };
+  },
+  {
+    index: resolve(process.cwd(), 'src/renderer/index.tsx'),
+  },
+);
+
+const htmlWebpackPlugins = Object.keys(entry).map(entryName => {
+  return new HtmlWebpackPlugin({
+    filename: `${entryName}.html`,
+    template: resolve(process.cwd(), 'src/renderer/public/index.html'),
+    chunks: [entryName],
+  });
+});
 
 module.exports = {
-  entry: {
-    view: resolve(process.cwd(), 'src/renderer/index.tsx'),
-  },
+  entry: entry,
   output: {
     path: resolve(process.cwd(), '.webpack/renderer'),
   },
@@ -74,10 +92,7 @@ module.exports = {
     },
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: resolve(process.cwd(), 'src/renderer/public/index.html'),
-    }),
+    ...htmlWebpackPlugins,
     new MiniCssExtractPlugin({
       filename: '[name].css',
       chunkFilename: '[id].css',
