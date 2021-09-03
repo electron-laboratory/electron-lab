@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-var-requires */
 import Webpack from 'webpack';
 import { build, Platform, createTargets } from 'electron-builder';
 import { merge } from 'webpack-merge';

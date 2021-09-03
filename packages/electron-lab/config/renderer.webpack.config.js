@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const { resolve } = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -18,10 +19,10 @@ module.exports = {
       {
         test: /\.less$/i,
         use: [
-          require.resolve('style-loader'),
-          require.resolve('css-loader'),
+          'style-loader',
+          'css-loader',
           {
-            loader: require.resolve('less-loader'),
+            loader: 'less-loader',
             options: {
               lessOptions: {
                 javascriptEnabled: true,
@@ -31,29 +32,18 @@ module.exports = {
         ],
       },
       {
-        test: /\.css$/,
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              publicPath: '../',
-            },
-          },
-          'css-loader',
-        ],
+        test: /\.css$i/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
         test: /\.(ts|tsx|js|jsx)$/,
         use: {
-          loader: require.resolve('babel-loader'),
+          loader: 'babel-loader',
           options: {
-            presets: [
-              require.resolve('@babel/preset-react'),
-              require.resolve('@babel/preset-typescript'),
-            ],
+            presets: ['@babel/preset-react', '@babel/preset-typescript'],
             plugins: [
               [
-                require.resolve('babel-plugin-import'),
+                'babel-plugin-import',
                 {
                   libraryName: 'antd',
                   libraryDirectory: 'es',
@@ -68,7 +58,7 @@ module.exports = {
         test: /(\.svg)|(\.png)$/,
         use: [
           {
-            loader: require.resolve('url-loader'),
+            loader: 'url-loader',
           },
         ],
       },
@@ -76,6 +66,9 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json'],
+    alias: {
+      react: require.resolve('react'),
+    },
   },
   plugins: [
     new HtmlWebpackPlugin({
