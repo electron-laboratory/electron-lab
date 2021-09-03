@@ -22,7 +22,7 @@ const { platform } = process;
 const classNamePrefix = 'electron-lab';
 const getClassName = (className: string) => classNamePrefix + '-' + className;
 
-const TitleBar: React.FC<TitleBarProps> = ({ title, backgroundColor, dark = true, children }) => {
+const TitleBar: React.FC<TitleBarProps> = ({ title, backgroundColor, dark, children }) => {
   const [dynamicTitle, setDynamicTitle] = useState(title || document.title);
 
   useEffect(() => {

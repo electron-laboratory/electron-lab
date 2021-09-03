@@ -87,9 +87,11 @@ document.write('settings');
 2. webpack 配置了向主进程注入 `WEBPACK_ENTRY_settings` 变量，需要自行 `declare`，然后引用。
 
 ```ts
+import { openSubWindow } from 'electron-lab';
+
 declare const WEBPACK_ENTRY_settings: string;
 
-const subWindow = new BrowserWindow({});
-
-subWindow.loadURL(WEBPACK_ENTRY_settings);
+const subWindow = openSubWindow({
+  entry: WEBPACK_ENTRY_settings,
+});
 ```
