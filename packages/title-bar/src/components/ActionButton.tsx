@@ -13,7 +13,7 @@ const Max: React.FC<HTMLAttributes<HTMLDivElement> & {
   children?: ReactNode | undefined | ((isMax: boolean) => ReactNode);
 }> = ({ children, ...rest }) => {
   const [state, setState] = useState<typeof WINDOW_STATE_MAX | typeof WINDOW_STATE_NORMAL>(
-    'window/state/max',
+    'window/state/normal',
   );
   useEffect(() => {
     ipcRenderer.on(WINDOW_STATE, (e, args) => {

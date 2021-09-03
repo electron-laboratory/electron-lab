@@ -12,34 +12,33 @@
   },
   "dependencies": {
     "chalk": "^4.1.2",
+    "electron": "14.0.0",
+    "electron-builder": "^22.11.7",
     "lodash": "^4.17.21",
-    "yargs-parser": "^20.2.9"
-  },
-  "files": [
-    "lib",
-    "bin",
-    "config"
-  ],
-  "peerDependencies": {
+    "webpack-merge": "^5.8.0",
+    "yargs-parser": "^20.2.9",
     "@babel/core": "^7.15.4",
     "@babel/preset-react": "^7.14.5",
     "@babel/preset-typescript": "^7.15.0",
     "babel-loader": "^8.2.2",
     "babel-plugin-import": "^1.13.3",
     "css-loader": "^6.2.0",
-    "electron": "14.0.0",
-    "electron-builder": "^22.11.7",
-    "rimraf": "^3.0.2",
+    "html-webpack-plugin": "^5.3.2",
+    "less-loader": "^10.0.1",
     "mini-css-extract-plugin": "^2.2.1",
+    "moment": "^2.29.1",
+    "rimraf": "^3.0.2",
     "style-loader": "^3.2.1",
     "url-loader": "^4.1.1",
-    "less-loader": "^10.0.1",
     "webpack": "^5.51.1",
     "webpack-dev-server": "^4.1.0",
-    "html-webpack-plugin": "^5.3.2",
-    "webpack-merge": "^5.8.0",
-    "moment": "^2.29.1"
+    "less": "^4.1.1"
   },
+  "files": [
+    "lib",
+    "bin",
+    "config"
+  ],
   "devDependencies": {
     "@types/lodash": "^4.14.172",
     "@types/node": "^16.7.10",

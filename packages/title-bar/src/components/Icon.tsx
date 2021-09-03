@@ -1,7 +1,6 @@
 import React from 'react';
-import './iconfont.css';
 
-const Close: React.FC = props => {
+const IconClose: React.FC = props => {
   return (
     <svg x="0px" y="0px" viewBox="0 0 12 12">
       <polygon
@@ -11,7 +10,7 @@ const Close: React.FC = props => {
     </svg>
   );
 };
-const Maximize: React.FC = props => {
+const IconMaximize: React.FC = props => {
   return (
     <svg x="0px" y="0px" viewBox="0 0 10 10">
       <path
@@ -22,7 +21,7 @@ const Maximize: React.FC = props => {
   );
 };
 
-const Minimize: React.FC = props => {
+const IconMinimize: React.FC = props => {
   return (
     <svg x="0px" y="0px" viewBox="0 0 10 10">
       <rect fill="currentColor" width="10" height="1" x="0" y="9"></rect>
@@ -30,7 +29,7 @@ const Minimize: React.FC = props => {
   );
 };
 
-const Restore: React.FC<{ dark?: boolean }> = props => {
+const IconRestore: React.FC<{ dark?: boolean }> = props => {
   return (
     <svg x="0px" y="0px" viewBox="0 0 10 10">
       <mask id="Mask">
@@ -47,7 +46,7 @@ const Restore: React.FC<{ dark?: boolean }> = props => {
   );
 };
 
-const RestoreDark: React.FC = props => {
+const IconRestoreDark: React.FC = props => {
   return (
     <svg x="0px" y="0px" viewBox="0 0 10 10">
       <mask id="Mask">
@@ -64,4 +63,4 @@ const RestoreDark: React.FC = props => {
   );
 };
 
-export { Restore, Close, Maximize, Minimize, RestoreDark };
+export { IconRestore, IconClose, IconMaximize, IconMinimize, IconRestoreDark };

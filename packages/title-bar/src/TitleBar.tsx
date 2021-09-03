@@ -3,7 +3,13 @@ import cx from 'classnames';
 import { ActionButton } from './components/ActionButton';
 import './titlebar.less';
 
-import { Restore, Close, Maximize, Minimize, RestoreDark } from './components/Icon';
+import {
+  IconClose,
+  IconMaximize,
+  IconMinimize,
+  IconRestore,
+  IconRestoreDark,
+} from './components/Icon';
 
 type TitleBarProps = {
   title?: React.ReactNode;
@@ -26,7 +32,7 @@ const TitleBar: React.FC<TitleBarProps> = ({ title, backgroundColor, dark = true
     }
   }, [document.title]);
 
-  const restoreIcon = true ? <RestoreDark></RestoreDark> : <Restore></Restore>;
+  const restoreIcon = dark ? <IconRestoreDark></IconRestoreDark> : <IconRestore></IconRestore>;
 
   return (
     <div
@@ -40,18 +46,15 @@ const TitleBar: React.FC<TitleBarProps> = ({ title, backgroundColor, dark = true
       {platform === 'win32' && (
         <div className={cx(getClassName('actions'))}>
           <ActionButton.Min className={cx(getClassName('action'))}>
-            <Minimize></Minimize>
+            <IconMinimize></IconMinimize>
           </ActionButton.Min>
           <ActionButton.Max className={cx(getClassName('action'))}>
             {isMax => {
-              return isMax ? restoreIcon : <Maximize></Maximize>;
+              return isMax ? restoreIcon : <IconMaximize></IconMaximize>;
             }}
           </ActionButton.Max>
-          <ActionButton.Max className={cx(getClassName('action'))}>
-            <RestoreDark></RestoreDark>
-          </ActionButton.Max>
           <ActionButton.Close className={cx(getClassName('action'), getClassName('close'))}>
-            <Close />
+            <IconClose />
           </ActionButton.Close>
         </div>
       )}

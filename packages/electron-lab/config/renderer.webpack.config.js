@@ -32,16 +32,8 @@ module.exports = {
         ],
       },
       {
-        test: /\.css$/,
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              publicPath: '../',
-            },
-          },
-          'css-loader',
-        ],
+        test: /\.css$i/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
         test: /\.(ts|tsx|js|jsx)$/,
@@ -75,7 +67,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json'],
     alias: {
-      react: resolve(process.cwd(), 'node_modules/react/index.js'),
+      react: require.resolve('react'),
     },
   },
   plugins: [
