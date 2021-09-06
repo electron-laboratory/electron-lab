@@ -8,7 +8,7 @@ import moment from 'moment';
 import { resolve, join } from 'path';
 import { existsSync } from 'fs';
 import chalk from 'chalk';
-import { getWindows } from '../utils';
+import { getWindows, log } from '../utils';
 
 const configPath = resolve(__dirname, '../../config');
 
@@ -21,7 +21,7 @@ let customBuilderConfig = {};
 if (existsSync(customBuilderConfigPath)) {
   customBuilderConfig = merge({}, require(customBuilderConfigPath));
 } else {
-  console.log(chalk.red(`[electron-lab] no custom builder config was found.`));
+  log.warn('No custom builder config was found.');
 }
 
 const { productName } = require(join(process.cwd(), 'package.json'));
@@ -39,27 +39,27 @@ rimraf.sync(join(process.cwd(), '.webpack'));
 // 先构建 webpack 产物
 
 const buildApp = new Promise<void>(resolve => {
-  const defines = getWindows()
-    .map(
-      entryName =>
-        new Webpack.DefinePlugin({
-          [`WEBPACK_ENTRY_${entryName}`]: `\`file://\${require('path').resolve(__dirname, '../renderer/${entryName}.html')}\``,
-        }),
-    )
-    .concat([
-      // suit single window
-      new Webpack.DefinePlugin({
-        WEBPACK_ENTRY: `\`file://\${require('path').resolve(__dirname, '../renderer/index.html')}\``,
-      }),
-    ]);
   const appCompiler = Webpack(
     merge(mainConfig, {
       mode: webpackMode,
-      plugins: [...defines],
+      plugins: [
+        new Webpack.DefinePlugin({
+          _IS_DEV: JSON.stringify(false),
+          _PORT: JSON.stringify(undefined),
+          _FOUND_ENTRIES: JSON.stringify(getWindows()),
+          _getEntry: (entryName?: string) => {
+            const finalEntry = entryName || 'index';
+            return `file://${require('path').resolve(
+              __dirname,
+              '../renderer/' + finalEntry + '.html',
+            )}`;
+          },
+        }),
+      ],
     }),
   );
   appCompiler.run(() => {
-    console.log(chalk.green('[electron-lab] done main build.'));
+    log.success(`Build ${chalk.greenBright('main')} successfully.`);
     resolve();
   });
 });
@@ -71,7 +71,7 @@ const buildRenderer = new Promise<void>(resolve => {
     }),
   );
   viewCompiler.run(() => {
-    console.log(chalk.green('[electron-lab] done renderer build.'));
+    log.success(`Build ${chalk.greenBright('renderer')} successfully.`);
     resolve();
   });
 });
@@ -112,8 +112,8 @@ const buildElectron = () => {
           },
     ),
   })
-    .then(res => {
-      console.log(res);
+    .then(() => {
+      log.success(`Build ${chalk.greenBright('Application')} successfully.`);
       process.exit();
     })
     .catch(err => {
@@ -122,5 +122,6 @@ const buildElectron = () => {
 };
 
 Promise.all([buildApp, buildRenderer]).then(() => {
+  console.log(chalk.greenBright(`Starting build Application`));
   buildElectron();
 });

@@ -5,9 +5,7 @@ import proc, { ChildProcess } from 'child_process';
 import electron from 'electron';
 import { resolve, join } from 'path';
 import { merge } from 'webpack-merge';
-import readline, { Interface } from 'readline';
-import chalk from 'chalk';
-import { getWindows } from '../utils';
+import { getWindows, log } from '../utils';
 
 const configPath = resolve(__dirname, '../../config');
 const mainConfig = require(join(configPath, './main.webpack.config'));
@@ -18,51 +16,43 @@ const appPath = resolve(process.cwd());
 
 class ElectronProcessManager {
   electronProcess: ChildProcess | undefined;
-  rlInterface: Interface | undefined;
   start() {
     this.electronProcess?.kill();
-    this.rlInterface?.close();
-    this.electronProcess = proc.spawn((electron as unknown) as string, [appPath]);
-    this.rlInterface = readline
-      .createInterface({
-        input: this.electronProcess.stdout!,
-        terminal: false,
-      })
-      .on('line', line => {
-        console.log(chalk.cyan(`>> `), line);
-      });
-    this.electronProcess.on('error', err => {
-      console.log(err);
+    this.electronProcess = proc.spawn((electron as unknown) as string, [appPath], {
+      stdio: 'pipe',
+      env: {
+        ...process.env,
+        FORCE_COLOR: '1',
+      },
     });
+
+    this.electronProcess.stdout?.pipe(process.stdout);
   }
 
   kill() {
     this.electronProcess?.kill();
-    this.rlInterface?.close();
   }
 }
 
 const manager = new ElectronProcessManager();
 
 // 多窗口时的 Define 列表
-const defines = getWindows()
-  .map(
-    entryName =>
-      new Webpack.DefinePlugin({
-        [`WEBPACK_ENTRY_${entryName}`]: `"http://localhost:${port}/${entryName}.html"`,
-      }),
-  )
-  // suit single window
-  .concat([
-    new Webpack.DefinePlugin({
-      WEBPACK_ENTRY: `"http://localhost:${port}"`,
-    }),
-  ]);
 
 const appCompiler = Webpack(
   merge(mainConfig, {
     mode: 'development',
-    plugins: [...defines],
+    plugins: [
+      new Webpack.DefinePlugin({
+        _IS_DEV: JSON.stringify(true),
+        _PORT: JSON.stringify(port),
+        _FOUND_ENTRIES: JSON.stringify(getWindows()),
+        _getEntry: (port: number, entryName?: string) => {
+          return entryName
+            ? `http://localhost:${port}/${entryName}.html`
+            : `http://localhost:${port}/index.html`;
+        },
+      }),
+    ],
   }),
 );
 const viewCompiler = Webpack(
@@ -98,7 +88,7 @@ const devServer = new WebpackDevServer(
 );
 
 devServer.listen(port, '127.0.0.1', () => {
-  console.log(`Starting server on http://localhost:${port}`);
+  log.success(`Starting renderer server on http://localhost:${port}`);
 });
 
 process.on('exit', () => {

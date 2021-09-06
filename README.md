@@ -84,14 +84,12 @@ document.write('settings');
 
 > 模版 html 将会使用 `src/renderer/public/index.html`。
 
-2. webpack 配置了向主进程注入 `WEBPACK_ENTRY_settings` 变量，需要自行 `declare`，然后引用。
+2. 使用暴露的 Api 打开子窗口
 
 ```ts
-import { openSubWindow } from 'electron-lab';
-
-declare const WEBPACK_ENTRY_settings: string;
+import { openSubWindow, getEntry } from 'electron-lab';
 
 const subWindow = openSubWindow({
-  entry: WEBPACK_ENTRY_settings,
+  entry: getEntry('settings'),
 });
 ```
