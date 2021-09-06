@@ -7,9 +7,27 @@ export const getWindows = (dir?: string): string[] => {
   if (fs.existsSync(finalDir)) {
     const dir = fs.readdirSync(finalDir);
     if (dir.includes('index')) {
-      throw chalk.red('[electron lab] Don\'t use "index" as window name.');
+      throw chalk.bgRedBright('Error') +
+        ` Don't use ${chalk.red('index')} as window name. Try to remove ${chalk.red(
+          'src/renderer/windows/index',
+        )}.`;
     }
     return dir;
   }
   return [];
+};
+
+export const log = {
+  success: (...args: string[]): void => {
+    console.log(chalk.bgGreenBright(chalk.black('Success')) + ' ' + args.join(''));
+  },
+  error: (...args: string[]): void => {
+    console.log(chalk.bgRedBright('Error') + ' ' + args.join(''));
+  },
+  info: (...args: string[]): void => {
+    console.log(chalk.bgCyanBright('Info') + ' ' + args.join(''));
+  },
+  warn: (...args: string[]): void => {
+    console.log(chalk.bgYellowBright(chalk.black('Warning')) + ' ' + args.join(''));
+  },
 };
