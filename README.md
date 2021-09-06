@@ -46,13 +46,11 @@ electron-lab-example
             └── index.html
 ```
 
-在 `src/main/index.ts` 中，通过 webpack DefinePlugin 注入了应用入口：`WEBPACK_ENTRY`。
-
 ```ts
 // 以下代码添加到 src/main/index.ts 中
-declare const WEBPACK_ENTRY: string;
+import { getEntry } from 'electron-lab';
 
-mainWindow.loadURL(WEBPACK_ENTRY);
+mainWindow.loadURL(getEntry());
 ```
 
 最后：
