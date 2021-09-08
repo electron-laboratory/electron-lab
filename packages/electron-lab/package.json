@@ -1,6 +1,6 @@
 {
   "name": "electron-lab",
-  "version": "0.1.3-alpha.0",
+  "version": "0.1.3-alpha.1",
   "main": "index.js",
   "typings": "./lib/index.d.ts",
   "bin": {
