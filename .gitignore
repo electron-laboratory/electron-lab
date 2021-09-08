@@ -5,3 +5,5 @@ es
 
 yarn.lock
 yarn-error.log
+
+lerna-debug.log
