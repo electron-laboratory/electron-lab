@@ -1,0 +1,38 @@
+{
+  "name": "@electron-lab/utils",
+  "version": "0.1.0-alpha.1",
+  "description": "A collection of electron development tools",
+  "keywords": [
+    "electron",
+    "node",
+    "electron-lab"
+  ],
+  "author": "xiefengnian.xfn <xieniangao@126.com>",
+  "homepage": "https://github.com/electron-laboratory/electron-lab",
+  "license": "ISC",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/electron-laboratory/electron-lab.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/electron-laboratory/electron-lab/issues"
+  },
+  "dependencies": {
+    "check-disk-space": "^3.0.1",
+    "ping": "^0.4.1"
+  }
+}
