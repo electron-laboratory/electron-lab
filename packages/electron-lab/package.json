@@ -10,6 +10,7 @@
     "type": "git",
     "url": "https://github.com/electron-laboratory/electron-lab"
   },
+  "license": "MIT",
   "dependencies": {
     "@babel/core": "^7.15.4",
     "@babel/preset-react": "^7.14.5",

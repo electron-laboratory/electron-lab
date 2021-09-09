@@ -2,12 +2,13 @@
   "private": true,
   "name": "electron-lab",
   "version": "0.0.0",
+  "license": "MIT",
   "scripts": {
     "build": "father build",
-    "publish": "npm run build && lerna publish",
     "prepare": "husky install",
     "lint": "eslint packages/*/src/**/*",
-    "test": "jest"
+    "test": "jest",
+    "release": "yarn test && yarn build && lerna publish"
   },
   "workspaces": [
     "packages/*"

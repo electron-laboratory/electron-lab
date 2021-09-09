@@ -7,6 +7,8 @@ import { resolve, join } from 'path';
 import { merge } from 'webpack-merge';
 import { getWindows, log } from '../utils';
 
+const FROM_TEST = !!process.env.FROM_TEST;
+
 const configPath = resolve(__dirname, '../../config');
 const mainConfig = require(join(configPath, './main.webpack.config'));
 const rendererConfig = require(join(configPath, './renderer.webpack.config'));
@@ -17,8 +19,8 @@ const appPath = resolve(process.cwd());
 class ElectronProcessManager {
   electronProcess: ChildProcess | undefined;
   start() {
-    this.electronProcess?.kill();
-    this.electronProcess = proc.spawn((electron as unknown) as string, [appPath], {
+    this.kill();
+    const childProc = proc.spawn((electron as unknown) as string, [appPath], {
       stdio: 'pipe',
       env: {
         ...process.env,
@@ -26,7 +28,24 @@ class ElectronProcessManager {
       },
     });
 
-    this.electronProcess.stdout?.pipe(process.stdout);
+    childProc.on('spawn', () => {
+      log.success('Spawn electron success.');
+      if (FROM_TEST) {
+        childProc.kill();
+        process.exit(0);
+      }
+    });
+
+    childProc.on('error', err => {
+      log.error(err.message);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      childProc.kill();
+      process.exit(1);
+    });
+
+    childProc.stdout?.pipe(process.stdout);
+
+    this.electronProcess = childProc;
   }
 
   kill() {
@@ -61,23 +80,6 @@ const viewCompiler = Webpack(
   }),
 );
 
-appCompiler.watch(
-  {
-    aggregateTimeout: 300,
-  },
-  (err, result) => {
-    if (err) {
-      console.log(err);
-      return;
-    }
-    if (result?.hasErrors()) {
-      console.log(result.compilation.errors);
-      return;
-    }
-    manager.start();
-  },
-);
-
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const devServer = new WebpackDevServer(
@@ -89,8 +91,43 @@ const devServer = new WebpackDevServer(
 
 devServer.listen(port, '127.0.0.1', () => {
   log.success(`Starting renderer server on http://localhost:${port}`);
+  appCompiler.watch(
+    {
+      aggregateTimeout: 300,
+    },
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      if (result?.hasErrors()) {
+        console.log(result.compilation.errors);
+        return;
+      }
+      manager.start();
+    },
+  );
 });
 
-process.on('exit', () => {
+const exit = async () => {
   manager.kill();
+  await devServer.stop();
+  appCompiler.close(() => {
+    console.log('Bye!');
+  });
+};
+
+process.on('SIGINT', () => {
+  // exit from terminal
+  exit();
+});
+
+process.on('beforeExit', () => {
+  exit();
+});
+
+process.on('uncaughtException', () => {
+  exit().then(() => {
+    process.exit(1);
+  });
 });

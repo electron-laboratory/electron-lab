@@ -9,7 +9,7 @@
   ],
   "author": "xiefengnian.xfn <xieniangao@126.com>",
   "homepage": "https://github.com/electron-laboratory/electron-lab",
-  "license": "ISC",
+  "license": "MIT",
   "main": "lib/index.js",
   "directories": {
     "lib": "lib",
