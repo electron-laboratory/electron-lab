@@ -16,7 +16,7 @@ const mainConfig = require(join(configPath, './main.webpack.config'));
 const rendererConfig = require(join(configPath, './renderer.webpack.config'));
 const builderConfig = require(join(configPath, './electron-builder.config'));
 
-const customBuilderConfigPath = join(process.cwd(), './electron-builder.config');
+const customBuilderConfigPath = join(process.cwd(), './electron-builder.config.js');
 let customBuilderConfig = {};
 if (existsSync(customBuilderConfigPath)) {
   customBuilderConfig = merge({}, require(customBuilderConfigPath));

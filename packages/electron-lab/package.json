@@ -43,7 +43,8 @@
     "@types/lodash": "^4.14.172",
     "@types/node": "^16.7.10",
     "@types/rimraf": "^3.0.2",
-    "@types/webpack-dev-server": "^4.1.0"
+    "@types/webpack-dev-server": "^4.1.0",
+    "jest": "^27.1.0"
   },
   "gitHead": "fd886fe060955228a874d4285fb557b9b8c46280"
 }

@@ -19,5 +19,8 @@
     "lib",
     "src"
   ],
-  "gitHead": "fd886fe060955228a874d4285fb557b9b8c46280"
+  "gitHead": "fd886fe060955228a874d4285fb557b9b8c46280",
+  "devDependencies": {
+    "jest": "^27.1.0"
+  }
 }
