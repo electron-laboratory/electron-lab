@@ -21,6 +21,7 @@
     "bin",
     "examples",
     "config/**/*",
-    "index.js"
+    "index.js",
+    "__test__/**/*"
   ]
 }

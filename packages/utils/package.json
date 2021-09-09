@@ -34,5 +34,8 @@
   "dependencies": {
     "check-disk-space": "^3.0.1",
     "ping": "^0.4.1"
+  },
+  "devDependencies": {
+    "jest": "^27.1.0"
   }
 }

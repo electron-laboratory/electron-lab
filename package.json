@@ -6,12 +6,14 @@
     "build": "father build",
     "publish": "npm run build && lerna publish",
     "prepare": "husky install",
-    "lint": "eslint packages/*/src/**/*"
+    "lint": "eslint packages/*/src/**/*",
+    "test": "jest"
   },
   "workspaces": [
     "packages/*"
   ],
   "devDependencies": {
+    "@types/jest": "^27.0.1",
     "@typescript-eslint/eslint-plugin": "^4.30.0",
     "@typescript-eslint/parser": "^4.30.0",
     "@umijs/fabric": "^2.6.7",
@@ -20,6 +22,6 @@
     "eslint-plugin-react": "^7.25.1",
     "father": "^2.30.8",
     "husky": "^7.0.2",
-    "stylelint": "^13.13.1"
+    "jest": "^27.1.0"
   }
 }
