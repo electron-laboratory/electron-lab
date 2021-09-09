@@ -1,6 +1,6 @@
 {
   "name": "@electron-lab/utils",
-  "version": "0.1.0-alpha.1",
+  "version": "0.1.0-alpha.2",
   "description": "A collection of electron development tools",
   "keywords": [
     "electron",
