@@ -19,15 +19,15 @@ export const getWindows = (dir?: string): string[] => {
 
 export const log = {
   success: (...args: string[]): void => {
-    console.log(chalk.bgGreenBright(chalk.black('Success')) + ' ' + args.join(''));
+    console.log(chalk.green('✔ success') + ' ' + args.join(''));
   },
   error: (...args: string[]): void => {
-    console.log(chalk.bgRedBright('Error') + ' ' + args.join(''));
+    console.log(chalk.red('✗ error') + ' ' + args.join(''));
   },
   info: (...args: string[]): void => {
-    console.log(chalk.bgCyanBright('Info') + ' ' + args.join(''));
+    console.log(chalk.cyan('… info') + ' ' + args.join(''));
   },
   warn: (...args: string[]): void => {
-    console.log(chalk.bgYellowBright(chalk.black('Warning')) + ' ' + args.join(''));
+    console.log(chalk.yellow('! warning') + ' ' + args.join(''));
   },
 };

@@ -125,3 +125,7 @@ Promise.all([buildApp, buildRenderer]).then(() => {
   console.log(chalk.greenBright(`Starting build Application`));
   buildElectron();
 });
+
+process.on('uncaughtException', () => {
+  process.exit(1);
+});

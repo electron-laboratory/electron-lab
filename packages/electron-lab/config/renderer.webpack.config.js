@@ -71,6 +71,12 @@ module.exports = {
                   style: true,
                 },
               ],
+              [
+                require.resolve('babel-plugin-import-to-window-require'),
+                {
+                  packages: ['electron'],
+                },
+              ],
             ],
           },
         },
