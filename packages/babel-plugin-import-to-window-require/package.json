@@ -1,0 +1,31 @@
+{
+  "name": "babel-plugin-import-to-window-require",
+  "version": "1.0.0",
+  "description": "babel-plugin-import-to-window-require",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/electron-laboratory/electron-lab"
+  },
+  "keywords": [
+    "electron",
+    "electron-lab",
+    "babel",
+    "plugin"
+  ],
+  "authors": [
+    "xiefengnian <xieniangao@126.com> (https://github.com/xiefengnian)"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@babel/traverse": "7.14.0"
+  }
+}
