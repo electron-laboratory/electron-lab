@@ -89,7 +89,7 @@ const devServer = new WebpackDevServer(
   viewCompiler,
 );
 
-devServer.listen(port, '127.0.0.1', () => {
+devServer.startCallback(() => {
   log.success(`Starting renderer server on http://localhost:${port}`);
   appCompiler.watch(
     {
@@ -112,9 +112,8 @@ devServer.listen(port, '127.0.0.1', () => {
 const exit = async () => {
   manager.kill();
   await devServer.stop();
-  appCompiler.close(() => {
-    console.log('Bye!');
-  });
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  appCompiler.close(() => {});
 };
 
 process.on('SIGINT', () => {

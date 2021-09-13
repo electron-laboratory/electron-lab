@@ -4064,6 +4064,11 @@
   resolved "https://registry.nlark.com/@types/node/download/@types/node-14.17.14.tgz?cache=0&sync_timestamp=1630451099155&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fnode%2Fdownload%2F%40types%2Fnode-14.17.14.tgz#6fda9785b41570eb628bac27be4b602769a3f938"
   integrity sha1-b9qXhbQVcOtii6wnvktgJ2mj+Tg=
 
+"@types/node@^16.9.1":
+  version "16.9.1"
+  resolved "https://registry.nlark.com/@types/node/download/@types/node-16.9.1.tgz#0611b37db4246c937feef529ddcc018cf8e35708"
+  integrity sha1-BhGzfbQkbJN/7vUp3cwBjPjjVwg=
+
 "@types/normalize-package-data@^2.4.0":
   version "2.4.1"
   resolved "https://registry.nlark.com/@types/normalize-package-data/download/@types/normalize-package-data-2.4.1.tgz?cache=0&sync_timestamp=1629708441689&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fnormalize-package-data%2Fdownload%2F%40types%2Fnormalize-package-data-2.4.1.tgz"
@@ -22778,11 +22783,6 @@ tr46@^2.1.0:
   integrity sha1-+oeqgcpdWUHajL8fm3SdyWmk4kA=
   dependencies:
     punycode "^2.1.1"
-
-tree-kill@^1.2.2:
-  version "1.2.2"
-  resolved "https://registry.npm.taobao.org/tree-kill/download/tree-kill-1.2.2.tgz#4ca09a9092c88b73a7cdc5e8a01b507b0790a0cc"
-  integrity sha1-TKCakJLIi3OnzcXooBtQeweQoMw=
 
 trim-lines@^1.0.0:
   version "1.1.3"
