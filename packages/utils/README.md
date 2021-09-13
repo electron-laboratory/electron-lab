@@ -23,6 +23,15 @@ import { ping } from '@electron-lab/utils';
 
 Environment variables are lost when executing the command line in MacOS. This method tries to find them in `etc/paths`. Native Exec will be used on other operating systems.
 
+example: 
+```ts
+import { execWithPaths } from '@electron-lab/utils';
+
+execWithPaths('docker -v', (err, stdout) => {
+  console.log(stdout); // Docker version 20.10.5, build 55c4c88
+}); 
+```
+
 ## Packages
 
 checkDiskSpace: https://www.npmjs.com/package/check-disk-space
