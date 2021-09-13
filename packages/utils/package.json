@@ -1,6 +1,6 @@
 {
   "name": "@electron-lab/utils",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A collection of electron development tools",
   "keywords": [
     "electron",
@@ -11,6 +11,7 @@
   "homepage": "https://github.com/electron-laboratory/electron-lab",
   "license": "MIT",
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -36,6 +37,7 @@
     "ping": "^0.4.1"
   },
   "devDependencies": {
+    "@types/node": "^16.9.1",
     "jest": "^27.1.0"
   }
 }

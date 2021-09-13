@@ -13,7 +13,17 @@ import { ping } from '@electron-lab/utils';
 
 ```
 
-## Api
+## Methods
+
+`execWithPaths(command,options?,callback?)`
+
+> `v0.1.1`
+
+> MacOS Only
+
+Environment variables are lost when executing the command line in MacOS. This method tries to find them in `etc/paths`
+
+## Packages
 
 checkDiskSpace: https://www.npmjs.com/package/check-disk-space
 
