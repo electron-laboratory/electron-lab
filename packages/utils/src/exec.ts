@@ -12,18 +12,19 @@ function execWithPaths(
   callback?: (error: ExecException | null, stdout: string, stderr: string) => void,
 ): ChildProcess;
 function execWithPaths(command: string, ...rest): ReturnType<typeof exec> {
-  if (process.platform !== 'darwin') {
-    throw new Error(`ExecWithPaths works in MacOS only.`);
-  }
-
-  const cmd = command.split(' ')[0];
-
   let [options, callback] = rest;
 
   if (typeof options === 'function') {
     callback = options;
     options = {};
   }
+
+  if (process.platform !== 'darwin') {
+    console.log(`warning: execWithPaths works in MacOS only. The original exec is being used.`);
+    return exec(command, options, callback);
+  }
+
+  const cmd = command.split(' ')[0];
 
   const paths = readFileSync('/etc/paths', { encoding: 'utf-8' });
   const bin = paths
