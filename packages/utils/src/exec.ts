@@ -33,7 +33,7 @@ function execWithPaths(command: string, ...rest): ReturnType<typeof exec> {
         ...options.env,
         PATH: Array.from(
           new Set(
-            [PATH, options.env.PATH, process.env.PATH]
+            [PATH, options.env?.PATH, process.env?.PATH]
               .filter(Boolean)
               .map(_ => _.trim())
               .join(':')

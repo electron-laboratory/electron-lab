@@ -40,4 +40,15 @@ describe('exec with paths', () => {
       done();
     }
   });
+  test('env should work without options.env', done => {
+    if (process.platform === 'darwin') {
+      execWithPaths('echo $PATH', {}, (err, stdout, stderr) => {
+        const out = stdout.trim();
+        expect(/\/usr\/local\/bin/.test(out)).toBeTruthy();
+        done();
+      });
+    } else {
+      done();
+    }
+  });
 });
