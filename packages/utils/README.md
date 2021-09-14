@@ -19,7 +19,17 @@ import { ping } from '@electron-lab/utils';
 
 > `v0.1.1`
 
-This method automatically replenishes the child environment variables that are lost when the child process is called. On MacOS, this method will be additionally looked up in `/etc/paths`.
+The subprocess environment variables are lost when called after the electron build, and this method automatically replenishes the environment variables. On MacOS, this method will be additionally looked up in `/etc/paths`.
+
+example:
+
+```ts
+import { execWithPaths } from '@electron-lab/utils';
+
+execWithPaths('docker -v', (err, stdout) => {
+  console.log(stdout); // Docker version 20.10.5, build 55c4c88
+});
+```
 
 ## Packages
 
