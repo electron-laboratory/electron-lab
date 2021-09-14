@@ -19,17 +19,16 @@ import { ping } from '@electron-lab/utils';
 
 > `v0.1.1`
 
-> works on MacOS only
+The subprocess environment variables are lost when called after the electron build, and this method automatically replenishes the environment variables. On MacOS, this method will be additionally looked up in `/etc/paths`.
 
-Environment variables are lost when executing the command line in MacOS. This method tries to find them in `etc/paths`. Native Exec will be used on other operating systems.
+example:
 
-example: 
 ```ts
 import { execWithPaths } from '@electron-lab/utils';
 
 execWithPaths('docker -v', (err, stdout) => {
   console.log(stdout); // Docker version 20.10.5, build 55c4c88
-}); 
+});
 ```
 
 ## Packages
