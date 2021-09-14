@@ -19,9 +19,7 @@ import { ping } from '@electron-lab/utils';
 
 > `v0.1.1`
 
-> works on MacOS only
-
-Environment variables are lost when executing the command line in MacOS. This method tries to find them in `etc/paths`. Native Exec will be used on other operating systems.
+This method automatically replenishes the child environment variables that are lost when the child process is called. On MacOS, this method will be additionally looked up in `/etc/paths`.
 
 ## Packages
 

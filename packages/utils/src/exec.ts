@@ -18,11 +18,14 @@ function execWithPaths(command: string, ...rest): ReturnType<typeof exec> {
     options = {};
   }
 
-  const PATH = readFileSync('/etc/paths', { encoding: 'utf-8' })
-    .trim()
-    .split('\n')
-    .map(path => path.trim())
-    .join(':');
+  const PATH =
+    process.platform === 'darwin'
+      ? readFileSync('/etc/paths', { encoding: 'utf-8' })
+          .trim()
+          .split('\n')
+          .map(path => path.trim())
+          .join(':')
+      : '';
 
   return exec(
     command,
