@@ -36,3 +36,8 @@ execWithPaths('docker -v', (err, stdout) => {
 checkDiskSpace: https://www.npmjs.com/package/check-disk-space
 
 ping: https://www.npmjs.com/package/ping
+
+examples:
+```ts
+import { ping } from '@electron-lab/utils';
+```
