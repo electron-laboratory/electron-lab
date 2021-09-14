@@ -31,7 +31,15 @@ function execWithPaths(command: string, ...rest): ReturnType<typeof exec> {
       env: {
         ...process.env,
         ...options.env,
-        PATH: [PATH, options.env.PATH, process.env.PATH].filter(Boolean).join(':'),
+        PATH: Array.from(
+          new Set(
+            [PATH, options.env.PATH, process.env.PATH]
+              .filter(Boolean)
+              .map(_ => _.trim())
+              .join(':')
+              .split(':'),
+          ),
+        ).join(':'),
       },
     },
     callback,
