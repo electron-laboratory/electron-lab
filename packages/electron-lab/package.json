@@ -1,6 +1,6 @@
 {
   "name": "electron-lab",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "main": "index.js",
   "typings": "./lib/index.d.ts",
   "bin": {
@@ -17,7 +17,7 @@
     "@babel/preset-typescript": "^7.15.0",
     "babel-loader": "^8.2.2",
     "babel-plugin-import": "^1.13.3",
-    "babel-plugin-import-to-window-require": "^1.0.2",
+    "babel-plugin-import-to-window-require": "^1.0.3",
     "chalk": "^4.1.2",
     "css-loader": "^6.2.0",
     "electron": "14.0.0",
