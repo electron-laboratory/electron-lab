@@ -50,7 +50,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.css$i/,
+        test: /\.css$/i,
         use: [MiniCssExtractPlugin.loader, require.resolve('css-loader')],
       },
       {
@@ -92,7 +92,7 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json'],
+    extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json', '.less'],
     alias: {
       react: require.resolve('react'),
     },
