@@ -4,6 +4,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { getWindows } = require('../lib/utils');
 
+const PORT = process.env.PORT;
+
 const windows = getWindows();
 
 const entry = windows.reduce(
@@ -29,7 +31,7 @@ module.exports = {
     path: resolve(process.cwd(), '.webpack/renderer'),
   },
   devServer: {
-    port: 3901,
+    port: PORT || 3901,
   },
   devtool: 'source-map',
   module: {
