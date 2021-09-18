@@ -125,7 +125,8 @@ process.on('beforeExit', () => {
   exit();
 });
 
-process.on('uncaughtException', () => {
+process.on('uncaughtException', err => {
+  console.log(err);
   exit().then(() => {
     process.exit(1);
   });
