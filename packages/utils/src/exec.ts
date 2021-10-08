@@ -1,4 +1,13 @@
-import { exec, ExecOptions, ExecException, ChildProcess } from 'child_process';
+import {
+  exec,
+  ExecOptions,
+  ExecException,
+  ChildProcess,
+  execSync,
+  ExecSyncOptions,
+  ExecSyncOptionsWithStringEncoding,
+  ExecSyncOptionsWithBufferEncoding,
+} from 'child_process';
 import { readFileSync } from 'fs';
 
 function execWithPaths(
@@ -15,6 +24,10 @@ function execWithPaths(command: string, ...rest): ReturnType<typeof exec> {
 
   if (typeof options === 'function') {
     callback = options;
+    options = {};
+  }
+
+  if (!options) {
     options = {};
   }
 
@@ -49,4 +62,36 @@ function execWithPaths(command: string, ...rest): ReturnType<typeof exec> {
   );
 }
 
-export default execWithPaths;
+function execWithPathsSync(command: string): Buffer;
+function execWithPathsSync(command: string, options?: ExecSyncOptionsWithStringEncoding): string;
+function execWithPathsSync(command: string, options?: ExecSyncOptionsWithBufferEncoding): Buffer;
+function execWithPathsSync(command: string, options?: ExecSyncOptions): Buffer;
+function execWithPathsSync(command, options: ExecSyncOptions = { env: {} }): string | Buffer {
+  const PATH =
+    process.platform === 'darwin'
+      ? readFileSync('/etc/paths', { encoding: 'utf-8' })
+          .trim()
+          .split('\n')
+          .map(path => path.trim())
+          .join(':')
+      : '';
+
+  return execSync(command, {
+    ...options,
+    env: {
+      ...process.env,
+      ...options.env,
+      PATH: Array.from(
+        new Set(
+          [PATH, options.env?.PATH, process.env?.PATH]
+            .filter(Boolean)
+            .map(_ => _.trim())
+            .join(':')
+            .split(':'),
+        ),
+      ).join(':'),
+    },
+  });
+}
+
+export { execWithPaths, execWithPathsSync };
