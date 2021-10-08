@@ -1,6 +1,6 @@
 {
   "name": "@electron-lab/title-bar",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "main": "lib/index.js",
   "module": "es/index.js",
   "typings": "lib/index.d.ts",
