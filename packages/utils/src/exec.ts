@@ -66,7 +66,10 @@ function execWithPathsSync(command: string): Buffer;
 function execWithPathsSync(command: string, options?: ExecSyncOptionsWithStringEncoding): string;
 function execWithPathsSync(command: string, options?: ExecSyncOptionsWithBufferEncoding): Buffer;
 function execWithPathsSync(command: string, options?: ExecSyncOptions): Buffer;
-function execWithPathsSync(command, options: ExecSyncOptions = { env: {} }): string | Buffer {
+function execWithPathsSync(
+  command: string,
+  options: ExecSyncOptions = { env: {} },
+): string | Buffer {
   const PATH =
     process.platform === 'darwin'
       ? readFileSync('/etc/paths', { encoding: 'utf-8' })
