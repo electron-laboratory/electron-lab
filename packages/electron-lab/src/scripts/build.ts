@@ -9,12 +9,14 @@ import { resolve, join } from 'path';
 import { existsSync } from 'fs';
 import chalk from 'chalk';
 import { getWindows, log } from '../utils';
+import { getUserConfig } from '../config';
 
 const configPath = resolve(__dirname, '../../config');
 
 const mainConfig = require(join(configPath, './main.webpack.config'));
 const rendererConfig = require(join(configPath, './renderer.webpack.config'));
 const builderConfig = require(join(configPath, './electron-builder.config'));
+const userConfig = getUserConfig();
 
 const customBuilderConfigPath = join(process.cwd(), './electron-builder.config.js');
 let customBuilderConfig = {};
@@ -40,7 +42,7 @@ rimraf.sync(join(process.cwd(), '.webpack'));
 
 const buildApp = new Promise<void>(resolve => {
   const appCompiler = Webpack(
-    merge(mainConfig, {
+    merge(mainConfig, userConfig.main, {
       mode: webpackMode,
       plugins: [
         new Webpack.DefinePlugin({
@@ -66,7 +68,7 @@ const buildApp = new Promise<void>(resolve => {
 
 const buildRenderer = new Promise<void>(resolve => {
   const viewCompiler = Webpack(
-    merge(rendererConfig, {
+    merge(rendererConfig, userConfig.renderer, {
       mode: webpackMode,
     }),
   );
