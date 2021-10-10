@@ -15,14 +15,14 @@ describe('The script should execute normally', () => {
   });
   jest.setTimeout(60000);
   // i dont like this...
-  xit('Build script', done => {
-    const proc = fork(resolve(__dirname, '../lib/scripts/build.js'), {
-      cwd: join(__dirname, './fixtures'),
-      env: { ...process.env, FROM_TEST: 1 },
-    });
-    proc.on('exit', code => {
-      expect(code).toEqual(0);
-      done();
-    });
-  });
+  // xit('Build script', done => {
+  //   const proc = fork(resolve(__dirname, '../lib/scripts/build.js'), {
+  //     cwd: join(__dirname, './fixtures'),
+  //     env: { ...process.env, FROM_TEST: 1 },
+  //   });
+  //   proc.on('exit', code => {
+  //     expect(code).toEqual(0);
+  //     done();
+  //   });
+  // });
 });
