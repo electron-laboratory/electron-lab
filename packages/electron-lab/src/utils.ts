@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import fs, { writeFileSync } from 'fs';
+import fs, { existsSync, mkdirSync, writeFileSync } from 'fs';
 import path, { join, resolve } from 'path';
 import { spawnSync } from 'child_process';
 
@@ -48,6 +48,10 @@ export const createVersionFile = (): { filename: string; fileContent: string } =
 
 export const buildVersion = (): void => {
   const { filename, fileContent } = createVersionFile();
-  writeFileSync(resolve(process.cwd(), `.webpack/${filename}`), fileContent, { encoding: 'utf-8' });
-  log.success('Build Version.json success.');
+  const outputPath = resolve(process.cwd(), '.webpack');
+  if (!existsSync(outputPath)) {
+    mkdirSync(outputPath, { recursive: true });
+  }
+  writeFileSync(resolve(outputPath, filename), fileContent, { encoding: 'utf-8' });
+  log.success('Build version.json success.');
 };

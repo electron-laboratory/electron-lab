@@ -116,7 +116,6 @@ const buildElectron = () => {
   })
     .then(() => {
       log.success(`Build ${chalk.greenBright('Application')} successfully.`);
-      buildVersion();
       process.exit();
     })
     .catch(err => {
@@ -125,6 +124,7 @@ const buildElectron = () => {
 };
 
 Promise.all([buildApp, buildRenderer]).then(() => {
+  buildVersion();
   console.log(chalk.greenBright(`Starting build Application`));
   buildElectron();
 });
