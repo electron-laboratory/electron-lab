@@ -13,7 +13,7 @@ export const getUserConfig = (): {
   }
 
   let rendererConfig = {};
-  const rendererConfigPath = path.resolve(process.cwd(), 'main.webpack.config.js');
+  const rendererConfigPath = path.resolve(process.cwd(), 'renderer.webpack.config.js');
   if (fs.existsSync(rendererConfigPath)) {
     rendererConfig = require(rendererConfigPath);
   }
