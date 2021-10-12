@@ -1,6 +1,7 @@
 import chalk from 'chalk';
-import fs from 'fs';
-import { join } from 'path';
+import fs, { writeFileSync } from 'fs';
+import path, { join, resolve } from 'path';
+import { spawnSync } from 'child_process';
 
 export const getWindows = (dir?: string): string[] => {
   const finalDir = dir || join(process.cwd(), 'src/renderer/windows');
@@ -30,4 +31,23 @@ export const log = {
   warn: (...args: string[]): void => {
     console.log(chalk.yellow('! warning') + ' ' + args.join(''));
   },
+};
+
+export const createVersionFile = (): { filename: string; fileContent: string } => {
+  const commit = spawnSync('git', ['rev-parse', 'HEAD'], {
+    encoding: 'utf-8',
+  }).stdout.replace('\n', '');
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const { version } = require(path.resolve(process.cwd(), 'package.json'));
+  const date = new Date().toUTCString();
+  return {
+    filename: 'version.json',
+    fileContent: JSON.stringify({ commit, version, date }),
+  };
+};
+
+export const buildVersion = (): void => {
+  const { filename, fileContent } = createVersionFile();
+  writeFileSync(resolve(process.cwd(), `.webpack/${filename}`), fileContent, { encoding: 'utf-8' });
+  log.success('Build Version.json success.');
 };

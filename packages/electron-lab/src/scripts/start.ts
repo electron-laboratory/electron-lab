@@ -5,7 +5,7 @@ import proc, { ChildProcess } from 'child_process';
 import electron from 'electron';
 import { resolve, join } from 'path';
 import { merge } from 'webpack-merge';
-import { getWindows, log } from '../utils';
+import { buildVersion, getWindows, log } from '../utils';
 import { getUserConfig } from '../config';
 
 const FROM_TEST = !!process.env.FROM_TEST;
@@ -17,6 +17,8 @@ const userConfig = getUserConfig();
 
 const { port } = rendererConfig.devServer;
 const appPath = resolve(process.cwd());
+
+buildVersion();
 
 class ElectronProcessManager {
   electronProcess: ChildProcess | undefined;

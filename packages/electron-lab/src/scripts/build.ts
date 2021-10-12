@@ -8,7 +8,7 @@ import moment from 'moment';
 import { resolve, join } from 'path';
 import { existsSync } from 'fs';
 import chalk from 'chalk';
-import { getWindows, log } from '../utils';
+import { buildVersion, getWindows, log } from '../utils';
 import { getUserConfig } from '../config';
 
 const configPath = resolve(__dirname, '../../config');
@@ -116,6 +116,7 @@ const buildElectron = () => {
   })
     .then(() => {
       log.success(`Build ${chalk.greenBright('Application')} successfully.`);
+      buildVersion();
       process.exit();
     })
     .catch(err => {
