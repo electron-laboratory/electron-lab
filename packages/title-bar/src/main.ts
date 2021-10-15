@@ -10,11 +10,7 @@ import {
 } from './constants';
 import * as remoteMain from '@electron/remote/main';
 
-import _ from '@electron/remote';
-_;
-
 remoteMain.initialize();
-
 
 export const initWindowListener = (mainWindow: BrowserWindow): void => {
   remoteMain.enable(mainWindow.webContents);
