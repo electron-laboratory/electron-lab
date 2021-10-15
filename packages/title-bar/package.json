@@ -1,13 +1,13 @@
 {
   "name": "@electron-lab/title-bar",
-  "version": "0.1.8",
+  "version": "0.2.0",
   "main": "lib/index.js",
   "module": "es/index.js",
   "typings": "lib/index.d.ts",
   "license": "MIT",
   "dependencies": {
-    "classnames": "^2.3.1",
-    "@electron/remote": "^2.0.1"
+    "@electron/remote": "^2.0.1",
+    "classnames": "^2.3.1"
   },
   "peerDependencies": {
     "react": "^17.0.0"
