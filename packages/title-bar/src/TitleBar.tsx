@@ -12,7 +12,6 @@ import {
 } from './components/Icon';
 
 type TitleBarProps = {
-  title?: React.ReactNode;
   backgroundColor?: CSSProperties['backgroundColor'];
   dark?: boolean;
   followBrowserWindowOptions?: boolean;
@@ -26,13 +25,14 @@ const classNamePrefix = 'electron-lab';
 const getClassName = (className: string) => classNamePrefix + '-' + className;
 
 const TitleBar: React.FC<TitleBarProps> = ({
-  title,
+  extra,
   backgroundColor,
   dark,
   children,
   followBrowserWindowOptions,
   hideButtonWhileDisable,
 }) => {
+  const title = children;
   const [dynamicTitle, setDynamicTitle] = useState(title || document.title);
 
   useEffect(() => {
@@ -52,7 +52,7 @@ const TitleBar: React.FC<TitleBarProps> = ({
     >
       <div className={cx(getClassName('title'))}>{dynamicTitle}</div>
       <div className={cx(getClassName('flex-provider'))}>
-        <div className={cx(getClassName('children'))}>{children}</div>
+        <div className={cx(getClassName('extra'))}>{extra}</div>
         {platform === 'win32' && (
           <div className={cx(getClassName('actions'))}>
             <ActionButton.Min
