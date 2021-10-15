@@ -9,7 +9,7 @@ import {
   WINDOW_STATE_NORMAL,
 } from '../constants';
 
-import remote from '@electron/remote';
+const remote = window.require('@electron/remote');
 
 const Max: React.FC<HTMLAttributes<HTMLDivElement> & {
   children?: ReactNode | undefined | ((able: boolean, state: { isMax: boolean }) => ReactNode);
