@@ -8,8 +8,13 @@ import {
   WINDOW_STATE_MAX,
   WINDOW_STATE_NORMAL,
 } from './constants';
+import * as remoteMain from '@electron/remote/main';
 
-export const initWindowListener = (mainWindow: BrowserWindow):void => {
+remoteMain.initialize();
+
+
+export const initWindowListener = (mainWindow: BrowserWindow): void => {
+  remoteMain.enable(mainWindow.webContents);
   ipcMain.on(WINDOW_CLOSE, () => {
     mainWindow.close();
   });
