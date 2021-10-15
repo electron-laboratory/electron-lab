@@ -20,8 +20,7 @@ type TitleBarProps = {
   extra?: React.ReactNode;
 };
 
-// const { platform } = process;
-const platform = 'win32';
+const { platform } = process;
 
 const classNamePrefix = 'electron-lab';
 const getClassName = (className: string) => classNamePrefix + '-' + className;
