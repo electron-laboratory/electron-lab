@@ -13,8 +13,6 @@ import * as remoteMain from '@electron/remote/main';
 import _ from '@electron/remote';
 _;
 
-
-
 remoteMain.initialize();
 
 
