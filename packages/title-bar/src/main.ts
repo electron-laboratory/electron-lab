@@ -30,6 +30,12 @@ export const initWindowListener = (mainWindow: BrowserWindow, windowId?: string)
     throw new Error(`initWindowListener: ${windowId} is exist.`);
   }
   windowIdMap.set(windowId, mainWindow);
+  mainWindow.on('close', () => {
+    removeWindowListener(windowId);
+  });
+};
+export const removeWindowListener = (windowId: string): void => {
+  windowIdMap.delete(windowId);
 };
 
 ipcMain.on(WINDOW_CLOSE, (e, { windowId: wid }) => {
