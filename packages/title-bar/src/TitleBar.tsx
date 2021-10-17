@@ -17,6 +17,7 @@ type TitleBarProps = {
   followBrowserWindowOptions?: boolean;
   hideButtonWhileDisable?: boolean;
   extra?: React.ReactNode;
+  windowId?: string;
 };
 
 const { platform } = process;
@@ -31,6 +32,7 @@ const TitleBar: React.FC<TitleBarProps> = ({
   children,
   followBrowserWindowOptions,
   hideButtonWhileDisable,
+  windowId = 'index',
 }) => {
   const title = children;
   const [dynamicTitle, setDynamicTitle] = useState(title || document.title);
@@ -58,6 +60,7 @@ const TitleBar: React.FC<TitleBarProps> = ({
             <ActionButton.Min
               followBrowserWindowOptions={followBrowserWindowOptions}
               hideButtonWhileDisable={hideButtonWhileDisable}
+              windowId={windowId}
             >
               {able => {
                 return (
@@ -70,6 +73,7 @@ const TitleBar: React.FC<TitleBarProps> = ({
             <ActionButton.Max
               followBrowserWindowOptions={followBrowserWindowOptions}
               hideButtonWhileDisable={hideButtonWhileDisable}
+              windowId={windowId}
             >
               {(able, { isMax }) => {
                 return (
@@ -82,6 +86,7 @@ const TitleBar: React.FC<TitleBarProps> = ({
             <ActionButton.Close
               followBrowserWindowOptions={followBrowserWindowOptions}
               hideButtonWhileDisable={hideButtonWhileDisable}
+              windowId={windowId}
             >
               {able => {
                 return (

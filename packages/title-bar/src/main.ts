@@ -1,32 +1,70 @@
-import type { BrowserWindow } from 'electron';
+import { BrowserWindow } from 'electron';
 import { ipcMain } from 'electron';
 import {
   WINDOW_CLOSE,
+  WINDOW_IS_CLOSABLE,
+  WINDOW_IS_MAXIMIZABLE,
+  WINDOW_IS_MINIMIZABLE,
   WINDOW_MAXIMIZE,
   WINDOW_MINIMIZE,
   WINDOW_STATE,
   WINDOW_STATE_MAX,
   WINDOW_STATE_NORMAL,
 } from './constants';
-import * as remoteMain from '@electron/remote/main';
 
-remoteMain.initialize();
+const windowIdMap = new Map<string, BrowserWindow>();
 
-export const initWindowListener = (mainWindow: BrowserWindow): void => {
-  remoteMain.enable(mainWindow.webContents);
-  ipcMain.on(WINDOW_CLOSE, () => {
-    mainWindow.close();
-  });
-  ipcMain.on(WINDOW_MAXIMIZE, () => {
-    if (mainWindow.isMaximized()) {
-      mainWindow.unmaximize();
-      mainWindow.webContents.send(WINDOW_STATE, WINDOW_STATE_NORMAL);
-    } else {
-      mainWindow.maximize();
-      mainWindow.webContents.send(WINDOW_STATE, WINDOW_STATE_MAX);
-    }
-  });
-  ipcMain.on(WINDOW_MINIMIZE, () => {
-    mainWindow.minimize();
-  });
+const getWindow = (windowId: string) => {
+  const window = windowIdMap.get(windowId);
+  if (!window) {
+    throw new Error(`ipcMain on ${WINDOW_CLOSE}: can't found window with id ${windowId}`);
+  }
+  return window;
 };
+
+export const initWindowListener = (mainWindow: BrowserWindow, windowId?: string): void => {
+  if (!windowId) {
+    windowId = 'index';
+  }
+  if (windowIdMap.has(windowId)) {
+    throw new Error(`initWindowListener: ${windowId} is exist.`);
+  }
+  windowIdMap.set(windowId, mainWindow);
+};
+
+ipcMain.on(WINDOW_CLOSE, (e, { windowId: wid }) => {
+  const window = getWindow(wid);
+  window.close();
+  windowIdMap.delete(wid);
+});
+
+ipcMain.on(WINDOW_MAXIMIZE, (e, { windowId: wid }) => {
+  const window = getWindow(wid);
+  if (window.isMaximized()) {
+    window.unmaximize();
+    window.webContents.send(WINDOW_STATE, WINDOW_STATE_NORMAL);
+  } else {
+    window.maximize();
+    window.webContents.send(WINDOW_STATE, WINDOW_STATE_MAX);
+  }
+});
+
+ipcMain.on(WINDOW_MINIMIZE, (e, { windowId: wid }) => {
+  const window = getWindow(wid);
+  window.minimize();
+});
+
+ipcMain.handle(WINDOW_IS_CLOSABLE, (e, { windowId: wid }) => {
+  const window = getWindow(wid);
+  return window.isClosable();
+});
+
+ipcMain.handle(WINDOW_IS_MAXIMIZABLE, (e, { windowId: wid }) => {
+  const window = getWindow(wid);
+  return window.isMaximizable();
+});
+
+ipcMain.handle(WINDOW_IS_MINIMIZABLE, (e, { windowId: wid }) => {
+  const window = getWindow(wid);
+  return window.isMinimizable();
+});
