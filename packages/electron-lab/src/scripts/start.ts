@@ -5,16 +5,20 @@ import proc, { ChildProcess } from 'child_process';
 import electron from 'electron';
 import { resolve, join } from 'path';
 import { merge } from 'webpack-merge';
-import { getWindows, log } from '../utils';
+import { buildVersion, getWindows, log } from '../utils';
+import { getUserConfig } from '../config';
 
 const FROM_TEST = !!process.env.FROM_TEST;
 
 const configPath = resolve(__dirname, '../../config');
 const mainConfig = require(join(configPath, './main.webpack.config'));
 const rendererConfig = require(join(configPath, './renderer.webpack.config'));
+const userConfig = getUserConfig();
 
 const { port } = rendererConfig.devServer;
 const appPath = resolve(process.cwd());
+
+buildVersion();
 
 class ElectronProcessManager {
   electronProcess: ChildProcess | undefined;
@@ -58,7 +62,7 @@ const manager = new ElectronProcessManager();
 // 多窗口时的 Define 列表
 
 const appCompiler = Webpack(
-  merge(mainConfig, {
+  merge(mainConfig, userConfig.main, {
     mode: 'development',
     plugins: [
       new Webpack.DefinePlugin({
@@ -75,7 +79,7 @@ const appCompiler = Webpack(
   }),
 );
 const viewCompiler = Webpack(
-  merge(rendererConfig, {
+  merge(rendererConfig, userConfig.renderer, {
     mode: 'development',
   }),
 );

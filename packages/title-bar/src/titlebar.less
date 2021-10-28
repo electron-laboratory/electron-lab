@@ -1,7 +1,6 @@
 @cls: electron-lab;
 
 .@{cls}-title-bar {
-  display: flex;
   justify-content: center;
   position: relative;
   -webkit-app-region: drag;
@@ -19,19 +18,28 @@
   &.darwin {
     height: 40px;
     line-height: 40px;
-    &.@{cls}-title {
-      position: absolute;
-    }
   }
   &.win32 {
     height: 30px;
     line-height: 30px;
   }
+  .@{cls}-title {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+    text-align: center;
+  }
+  .@{cls}-flex-provider {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .@{cls}-extra {
+    position: relative;
+    z-index: 1000;
+  }
   .@{cls}-actions {
     user-select: none;
-    position: absolute;
-    right: 0;
-    top: 0;
     height: 100%;
     display: flex;
     .@{cls}-action {
@@ -53,6 +61,16 @@
       }
       &:hover {
         background-color: rgb(229, 229, 229);
+      }
+      &.disabled {
+        cursor: not-allowed;
+        background-color: gainsboro;
+        svg {
+          color: white;
+        }
+        &:hover {
+          background-color: gainsboro;
+        }
       }
       &.@{cls}-close {
         &:hover {

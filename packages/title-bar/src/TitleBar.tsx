@@ -12,9 +12,12 @@ import {
 } from './components/Icon';
 
 type TitleBarProps = {
-  title?: React.ReactNode;
   backgroundColor?: CSSProperties['backgroundColor'];
   dark?: boolean;
+  followBrowserWindowOptions?: boolean;
+  hideButtonWhileDisable?: boolean;
+  extra?: React.ReactNode;
+  windowId?: string;
 };
 
 const { platform } = process;
@@ -22,7 +25,16 @@ const { platform } = process;
 const classNamePrefix = 'electron-lab';
 const getClassName = (className: string) => classNamePrefix + '-' + className;
 
-const TitleBar: React.FC<TitleBarProps> = ({ title, backgroundColor, dark, children }) => {
+const TitleBar: React.FC<TitleBarProps> = ({
+  extra,
+  backgroundColor,
+  dark,
+  children,
+  followBrowserWindowOptions,
+  hideButtonWhileDisable,
+  windowId = 'index',
+}) => {
+  const title = children;
   const [dynamicTitle, setDynamicTitle] = useState(title || document.title);
 
   useEffect(() => {
@@ -41,22 +53,56 @@ const TitleBar: React.FC<TitleBarProps> = ({ title, backgroundColor, dark, child
       style={{ backgroundColor }}
     >
       <div className={cx(getClassName('title'))}>{dynamicTitle}</div>
-      <div style={{ position: 'relative', zIndex: 10 }}>{children}</div>
-      {platform === 'win32' && (
-        <div className={cx(getClassName('actions'))}>
-          <ActionButton.Min className={cx(getClassName('action'))}>
-            <IconMinimize></IconMinimize>
-          </ActionButton.Min>
-          <ActionButton.Max className={cx(getClassName('action'))}>
-            {isMax => {
-              return isMax ? restoreIcon : <IconMaximize></IconMaximize>;
-            }}
-          </ActionButton.Max>
-          <ActionButton.Close className={cx(getClassName('action'), getClassName('close'))}>
-            <IconClose />
-          </ActionButton.Close>
-        </div>
-      )}
+      <div className={cx(getClassName('flex-provider'))}>
+        <div className={cx(getClassName('extra'))}>{extra}</div>
+        {platform === 'win32' && (
+          <div className={cx(getClassName('actions'))}>
+            <ActionButton.Min
+              followBrowserWindowOptions={followBrowserWindowOptions}
+              hideButtonWhileDisable={hideButtonWhileDisable}
+              windowId={windowId}
+            >
+              {able => {
+                return (
+                  <div className={cx(getClassName('action'), { disabled: !able })}>
+                    <IconMinimize />
+                  </div>
+                );
+              }}
+            </ActionButton.Min>
+            <ActionButton.Max
+              followBrowserWindowOptions={followBrowserWindowOptions}
+              hideButtonWhileDisable={hideButtonWhileDisable}
+              windowId={windowId}
+            >
+              {(able, { isMax }) => {
+                return (
+                  <div className={cx(getClassName('action'), { disabled: !able })}>
+                    {isMax ? restoreIcon : <IconMaximize />}
+                  </div>
+                );
+              }}
+            </ActionButton.Max>
+            <ActionButton.Close
+              followBrowserWindowOptions={followBrowserWindowOptions}
+              hideButtonWhileDisable={hideButtonWhileDisable}
+              windowId={windowId}
+            >
+              {able => {
+                return (
+                  <div
+                    className={cx(getClassName('action'), getClassName('close'), {
+                      disabled: !able,
+                    })}
+                  >
+                    <IconClose />
+                  </div>
+                );
+              }}
+            </ActionButton.Close>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
