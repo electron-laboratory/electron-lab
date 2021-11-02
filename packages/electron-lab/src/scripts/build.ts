@@ -116,10 +116,12 @@ const buildElectron = () => {
   })
     .then(() => {
       log.success(`Build ${chalk.greenBright('Application')} successfully.`);
-      process.exit();
     })
     .catch(err => {
       console.log(err);
+    })
+    .finally(() => {
+      process.send?.('exit');
     });
 };
 

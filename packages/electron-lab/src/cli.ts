@@ -24,6 +24,12 @@ switch (args._[0]) {
       cwd: process.cwd(),
       env: process.env,
     });
+    proc.on('message', msg => {
+      if (msg === 'exit') {
+        proc.kill();
+        process.exit(0);
+      }
+    });
     proc.on('exit', () => {
       process.kill(0);
     });
