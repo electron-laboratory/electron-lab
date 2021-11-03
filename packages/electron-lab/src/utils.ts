@@ -53,5 +53,5 @@ export const buildVersion = (): void => {
     mkdirSync(outputPath, { recursive: true });
   }
   writeFileSync(resolve(outputPath, filename), fileContent, { encoding: 'utf-8' });
-  log.success('Build version.json success.');
+  log.success(`build ${chalk.greenBright('version.json')}  success.`);
 };
