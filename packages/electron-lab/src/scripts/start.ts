@@ -7,6 +7,7 @@ import { resolve, join } from 'path';
 import { merge } from 'webpack-merge';
 import { buildVersion, getWindows, log } from '../utils';
 import { getUserConfig } from '../config';
+import yParser from 'yargs-parser';
 
 const FROM_TEST = !!process.env.FROM_TEST;
 
@@ -15,25 +16,42 @@ const mainConfig = require(join(configPath, './main.webpack.config'));
 const rendererConfig = require(join(configPath, './renderer.webpack.config'));
 const userConfig = getUserConfig();
 
-const { port } = rendererConfig.devServer;
+let { port } = rendererConfig.devServer;
 const appPath = resolve(process.cwd());
 
 buildVersion();
+
+// command line options
+const args = yParser(process.argv.slice(2));
+if (args.port) {
+  port = args.port;
+}
 
 class ElectronProcessManager {
   electronProcess: ChildProcess | undefined;
   start() {
     this.kill();
-    const childProc = proc.spawn((electron as unknown) as string, [appPath], {
-      stdio: 'pipe',
-      env: {
-        ...process.env,
-        FORCE_COLOR: '1',
+    const childProc = proc.spawn(
+      (electron as unknown) as string,
+      args.inspect ? [`--inspect=${args.inspect}`, appPath] : [appPath],
+      {
+        stdio: 'pipe',
+        env: {
+          ...process.env,
+          FORCE_COLOR: '1',
+        },
       },
-    });
+    );
 
     childProc.on('spawn', () => {
-      log.success('Spawn electron success.');
+      log.success(
+        `spawn electron success.${args.inspect ? ` inspecting in port ${args.inspect}...` : ''}`,
+      );
+      if (args.inspect) {
+        log.info(
+          `electron main process inspect document: https://www.electronjs.org/zh/docs/latest/tutorial/debugging-main-process`,
+        );
+      }
       if (FROM_TEST) {
         childProc.kill();
         process.exit(0);
@@ -94,7 +112,7 @@ const devServer = new WebpackDevServer(
 );
 
 devServer.startCallback(() => {
-  log.success(`Starting renderer server on http://localhost:${port}`);
+  log.success(`starting renderer server on http://localhost:${port}`);
   appCompiler.watch(
     {
       aggregateTimeout: 300,

@@ -10,7 +10,7 @@ const args = yParser(process.argv.slice(2));
 
 switch (args._[0]) {
   case 'start': {
-    const proc = fork(resolve(__dirname, './scripts/start.js'), {
+    const proc = fork(resolve(__dirname, './scripts/start.js'), process.argv, {
       cwd: process.cwd(),
       env: process.env,
     });
@@ -20,7 +20,7 @@ switch (args._[0]) {
     break;
   }
   case 'build': {
-    const proc = fork(resolve(__dirname, './scripts/build.js'), {
+    const proc = fork(resolve(__dirname, './scripts/build.js'), process.argv, {
       cwd: process.cwd(),
       env: process.env,
     });

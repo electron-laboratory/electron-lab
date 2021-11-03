@@ -10,6 +10,14 @@ import { existsSync } from 'fs';
 import chalk from 'chalk';
 import { buildVersion, getWindows, log } from '../utils';
 import { getUserConfig } from '../config';
+import yParser from 'yargs-parser';
+
+const args = yParser(process.argv.slice(2));
+let { output } = args;
+if (!output) {
+  output = './dist';
+}
+log.info(`output dir: ${output}`);
 
 const configPath = resolve(__dirname, '../../config');
 
@@ -23,7 +31,7 @@ let customBuilderConfig = {};
 if (existsSync(customBuilderConfigPath)) {
   customBuilderConfig = merge({}, require(customBuilderConfigPath));
 } else {
-  log.warn('No custom builder config was found.');
+  log.warn('no custom builder config was found.');
 }
 
 const { productName } = require(join(process.cwd(), 'package.json'));
@@ -61,7 +69,7 @@ const buildApp = new Promise<void>(resolve => {
     }),
   );
   appCompiler.run(() => {
-    log.success(`Build ${chalk.greenBright('main')} successfully.`);
+    log.success(`build ${chalk.greenBright('main')} successfully.`);
     resolve();
   });
 });
@@ -73,7 +81,7 @@ const buildRenderer = new Promise<void>(resolve => {
     }),
   );
   viewCompiler.run(() => {
-    log.success(`Build ${chalk.greenBright('renderer')} successfully.`);
+    log.success(`build ${chalk.greenBright('renderer')} successfully.`);
     resolve();
   });
 });
@@ -91,6 +99,7 @@ const buildElectron = () => {
       builderConfig,
       {
         electronVersion: '14.0.0',
+        directories: { output },
       },
       isTestEnv
         ? {
@@ -115,7 +124,7 @@ const buildElectron = () => {
     ),
   })
     .then(() => {
-      log.success(`Build ${chalk.greenBright('Application')} successfully.`);
+      log.success(`build ${chalk.greenBright('application')} successfully.`);
     })
     .catch(err => {
       console.log(err);
@@ -127,7 +136,7 @@ const buildElectron = () => {
 
 Promise.all([buildApp, buildRenderer]).then(() => {
   buildVersion();
-  console.log(chalk.greenBright(`Starting build Application`));
+  log.info(`starting build application`);
   buildElectron();
 });
 
