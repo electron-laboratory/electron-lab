@@ -4,11 +4,8 @@ electron-lab 致力于探索 electron 研发的最佳实践，让开发者可以
 
 ## 特性
 
-- 🎉 一键启停，一键构建
-- 🎉 支持 typescript
-- 🎉 自定义标题栏的封装 [@electron-lab/title-bar](https://github.com/electron-laboratory/electron-lab/tree/main/packages/title-bar)
-- 🎉 支持多窗口
-- 🎉 内置 electron-builder
+- 🎉 非常好用项目脚手架 [electron-lab](https://github.com/electron-laboratory/electron-lab/tree/main/packages/electron-lab)
+- 🎉 非常好用的标题栏封装 [@electron-lab/title-bar](https://github.com/electron-laboratory/electron-lab/tree/main/packages/title-bar)
 
 ## 使用
 
