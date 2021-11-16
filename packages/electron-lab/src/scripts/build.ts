@@ -3,7 +3,7 @@ import Webpack from 'webpack';
 import { build, Platform, createTargets } from 'electron-builder';
 import { merge } from 'webpack-merge';
 import rimraf from 'rimraf';
-import lodash from 'lodash';
+import lodash, { reject } from 'lodash';
 import moment from 'moment';
 import { resolve, join } from 'path';
 import { existsSync } from 'fs';
@@ -48,7 +48,7 @@ rimraf.sync(join(process.cwd(), '.webpack'));
 
 // 先构建 webpack 产物
 
-const buildApp = new Promise<void>(resolve => {
+const buildApp = new Promise<void>((resolve, reject) => {
   const appCompiler = Webpack(
     merge(mainConfig, userConfig.main, {
       mode: webpackMode,
@@ -68,7 +68,16 @@ const buildApp = new Promise<void>(resolve => {
       ],
     }),
   );
-  appCompiler.run(() => {
+  appCompiler.run((err, res) => {
+    if (err) {
+      throw err;
+    }
+    if (res?.hasErrors()) {
+      res.compilation.errors.forEach(error => {
+        log.error(error.stack || error.message);
+      });
+      reject('build main fail.');
+    }
     log.success(`build ${chalk.greenBright('main')} successfully.`);
     resolve();
   });
@@ -80,7 +89,16 @@ const buildRenderer = new Promise<void>(resolve => {
       mode: webpackMode,
     }),
   );
-  viewCompiler.run(() => {
+  viewCompiler.run((err, res) => {
+    if (err) {
+      throw err;
+    }
+    if (res?.hasErrors()) {
+      res.compilation.errors.forEach(error => {
+        log.error(error.stack || error.message);
+      });
+      reject('build renderer fail.');
+    }
     log.success(`build ${chalk.greenBright('renderer')} successfully.`);
     resolve();
   });
@@ -134,11 +152,15 @@ const buildElectron = () => {
     });
 };
 
-Promise.all([buildApp, buildRenderer]).then(() => {
-  buildVersion();
-  log.info(`starting build application`);
-  buildElectron();
-});
+Promise.all([buildApp, buildRenderer])
+  .then(() => {
+    buildVersion();
+    log.info(`starting build application`);
+    buildElectron();
+  })
+  .catch(reason => {
+    log.error(reason);
+  });
 
 process.on('uncaughtException', () => {
   process.exit(1);
