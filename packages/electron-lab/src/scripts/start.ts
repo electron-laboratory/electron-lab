@@ -5,16 +5,20 @@ import proc, { ChildProcess } from 'child_process';
 import electron from 'electron';
 import { resolve, join } from 'path';
 import { merge } from 'webpack-merge';
-import { buildVersion, getWindows, log } from '../utils';
+import { buildVersion, log } from '../utils';
 import { getUserConfig } from '../config';
 import yParser from 'yargs-parser';
+import { FatherBuildCli, WatchReturnType } from '../fatherCli';
 
 const FROM_TEST = !!process.env.FROM_TEST;
 
 const configPath = resolve(__dirname, '../../config');
-const mainConfig = require(join(configPath, './main.webpack.config'));
-const rendererConfig = require(join(configPath, './renderer.webpack.config'));
+const rendererConfig = require(join(configPath, './webpack.config'));
 const userConfig = getUserConfig();
+
+const fatherBuildCli = new FatherBuildCli({
+  configPath: resolve(__dirname, '../../config/.fatherrc.js'),
+});
 
 let { port } = rendererConfig.devServer;
 const appPath = resolve(process.cwd());
@@ -79,23 +83,6 @@ const manager = new ElectronProcessManager();
 
 // 多窗口时的 Define 列表
 
-const appCompiler = Webpack(
-  merge(mainConfig, userConfig.main, {
-    mode: 'development',
-    plugins: [
-      new Webpack.DefinePlugin({
-        _IS_DEV: JSON.stringify(true),
-        _PORT: JSON.stringify(port),
-        _FOUND_ENTRIES: JSON.stringify(getWindows()),
-        _getEntry: (port: number, entryName?: string) => {
-          return entryName
-            ? `http://localhost:${port}/${entryName}.html`
-            : `http://localhost:${port}/index.html`;
-        },
-      }),
-    ],
-  }),
-);
 const viewCompiler = Webpack(
   merge(rendererConfig, userConfig.renderer, {
     mode: 'development',
@@ -111,31 +98,22 @@ const devServer = new WebpackDevServer(
   viewCompiler,
 );
 
+let fatherBuildWatcher: WatchReturnType;
+
 devServer.startCallback(() => {
   log.success(`starting renderer server on http://localhost:${port}`);
-  appCompiler.watch(
-    {
-      aggregateTimeout: 300,
-    },
-    (err, result) => {
-      if (err) {
-        console.log(err);
-        return;
-      }
-      if (result?.hasErrors()) {
-        console.log(result.compilation.errors);
-        return;
-      }
+  fatherBuildWatcher = fatherBuildCli.watch({
+    onBuild: () => {
+      log.success('主进程编译完成');
       manager.start();
     },
-  );
+  });
 });
 
 const exit = async () => {
   manager.kill();
   await devServer.stop();
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  appCompiler.close(() => {});
+  fatherBuildWatcher?.exit();
 };
 
 process.on('SIGINT', () => {

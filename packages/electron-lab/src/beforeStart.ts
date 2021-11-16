@@ -6,9 +6,9 @@ import { log } from './utils';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const userPackageJson = require(join(process.cwd(), 'package.json'));
 const { main } = userPackageJson;
-if (!main || main !== '.webpack/main/index.js') {
+if (!main || main !== '.el/main/index.js') {
   throw chalk.bgRedBright('Error') +
-    ` ${chalk.red('main')} field in package.json must be ${chalk.red('".webpack/main/index.js"')}`;
+    ` ${chalk.red('main')} field in package.json must be ${chalk.red('".el/main/index.js"')}`;
 }
 
 const npmRcPath = join(process.cwd(), '.npmrc');

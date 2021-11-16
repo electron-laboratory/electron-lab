@@ -8,9 +8,10 @@ import moment from 'moment';
 import { resolve, join } from 'path';
 import { existsSync } from 'fs';
 import chalk from 'chalk';
-import { buildVersion, getWindows, log } from '../utils';
+import { buildVersion, log } from '../utils';
 import { getUserConfig } from '../config';
 import yParser from 'yargs-parser';
+import { FatherBuildCli } from '../fatherCli';
 
 const args = yParser(process.argv.slice(2));
 let { output } = args;
@@ -21,10 +22,13 @@ log.info(`output dir: ${output}`);
 
 const configPath = resolve(__dirname, '../../config');
 
-const mainConfig = require(join(configPath, './main.webpack.config'));
-const rendererConfig = require(join(configPath, './renderer.webpack.config'));
+const rendererConfig = require(join(configPath, './webpack.config'));
 const builderConfig = require(join(configPath, './electron-builder.config'));
 const userConfig = getUserConfig();
+
+const fatherBuildCli = new FatherBuildCli({
+  configPath: resolve(__dirname, '../../config/.fatherrc.js'),
+});
 
 const customBuilderConfigPath = join(process.cwd(), './electron-builder.config.js');
 let customBuilderConfig = {};
@@ -49,27 +53,7 @@ rimraf.sync(join(process.cwd(), '.webpack'));
 // 先构建 webpack 产物
 
 const buildApp = new Promise<void>(resolve => {
-  const appCompiler = Webpack(
-    merge(mainConfig, userConfig.main, {
-      mode: webpackMode,
-      plugins: [
-        new Webpack.DefinePlugin({
-          _IS_DEV: JSON.stringify(false),
-          _PORT: JSON.stringify(undefined),
-          _FOUND_ENTRIES: JSON.stringify(getWindows()),
-          _getEntry: (entryName?: string) => {
-            const finalEntry = entryName || 'index';
-            return `file://${require('path').resolve(
-              __dirname,
-              '../renderer/' + finalEntry + '.html',
-            )}`;
-          },
-        }),
-      ],
-    }),
-  );
-  appCompiler.run(() => {
-    log.success(`build ${chalk.greenBright('main')} successfully.`);
+  fatherBuildCli.build().then(() => {
     resolve();
   });
 });
