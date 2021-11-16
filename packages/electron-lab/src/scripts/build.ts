@@ -77,6 +77,7 @@ const buildApp = new Promise<void>((resolve, reject) => {
         log.error(error.stack || error.message);
       });
       reject('build main fail.');
+      return;
     }
     log.success(`build ${chalk.greenBright('main')} successfully.`);
     resolve();
@@ -98,6 +99,7 @@ const buildRenderer = new Promise<void>(resolve => {
         log.error(error.stack || error.message);
       });
       reject('build renderer fail.');
+      return;
     }
     log.success(`build ${chalk.greenBright('renderer')} successfully.`);
     resolve();
