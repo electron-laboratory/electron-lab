@@ -8,7 +8,7 @@ import moment from 'moment';
 import { resolve, join } from 'path';
 import { existsSync } from 'fs';
 import chalk from 'chalk';
-import { buildVersion, getWindows, log } from '../utils';
+import { buildVersion, generateMd5, getWindows, log } from '../utils';
 import { getUserConfig } from '../config';
 import yParser from 'yargs-parser';
 
@@ -143,7 +143,8 @@ const buildElectron = () => {
           },
     ),
   })
-    .then(() => {
+    .then(res => {
+      generateMd5(res);
       log.success(`build ${chalk.greenBright('application')} successfully.`);
     })
     .catch(err => {
