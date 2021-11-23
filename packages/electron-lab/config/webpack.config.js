@@ -28,7 +28,7 @@ const htmlWebpackPlugins = Object.keys(entry).map(entryName => {
 module.exports = {
   entry: entry,
   output: {
-    path: resolve(process.cwd(), '.webpack/renderer'),
+    path: resolve(process.cwd(), '.el/renderer'),
   },
   devServer: {
     port: PORT || 3901,

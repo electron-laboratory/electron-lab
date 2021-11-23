@@ -32,8 +32,6 @@ class FatherBuildCli {
       this.build()
         .then(() => {
           onBuild?.();
-          rimraf.sync(join(process.cwd(), '.el'));
-          renameSync(join(process.cwd(), 'lib'), join(process.cwd(), '.el'));
         })
         .catch(err => {
           throw err;
@@ -58,7 +56,7 @@ class FatherBuildCli {
   build(opts?: BuildOpts): Promise<boolean> {
     return new Promise((resolve, reject) => {
       const args = this.opts.configPath ? [`--config=${this.opts.configPath}`] : [];
-      const proc = spawn('father-build', args, {
+      const proc = spawn('father-build', args.concat([`--ignores=src/renderer`, `--output=.el`]), {
         stdio: 'pipe',
         env: { ...process.env, FORCE_COLOR: '1' },
         cwd: opts?.cwd,

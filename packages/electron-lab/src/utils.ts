@@ -48,7 +48,7 @@ export const createVersionFile = (): { filename: string; fileContent: string } =
 
 export const buildVersion = (): void => {
   const { filename, fileContent } = createVersionFile();
-  const outputPath = resolve(process.cwd(), '.webpack');
+  const outputPath = resolve(process.cwd(), '.el');
   if (!existsSync(outputPath)) {
     mkdirSync(outputPath, { recursive: true });
   }

@@ -48,7 +48,7 @@ const webpackMode = isTestEnv ? 'development' : 'production';
 // 清空目录
 
 rimraf.sync(join(process.cwd(), 'dist'));
-rimraf.sync(join(process.cwd(), '.webpack'));
+rimraf.sync(join(process.cwd(), '.el'));
 
 // 先构建 webpack 产物
 
