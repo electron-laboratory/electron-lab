@@ -18,7 +18,14 @@ export const getWindows = (dir?: string): string[] => {
   return [];
 };
 
-export const log = {
+type LogFunctionType = (...args: string[]) => void;
+
+export const log: {
+  success: LogFunctionType;
+  error: LogFunctionType;
+  info: LogFunctionType;
+  warn: LogFunctionType;
+} = {
   success: (...args: string[]): void => {
     console.log(chalk.green('✔ success') + ' ' + args.join(''));
   },
@@ -53,5 +60,5 @@ export const buildVersion = (): void => {
     mkdirSync(outputPath, { recursive: true });
   }
   writeFileSync(resolve(outputPath, filename), fileContent, { encoding: 'utf-8' });
-  log.success(`build ${chalk.greenBright('version.json')}  success.`);
+  log.success(`build ${chalk.greenBright('version.json')} success.`);
 };

@@ -2,7 +2,7 @@ import { spawn } from 'child_process';
 import { existsSync, readFileSync, rename, renameSync, rmdir } from 'fs';
 import path, { isAbsolute, join } from 'path';
 import chokidar from 'chokidar';
-import rimraf from 'rimraf';
+import { debounce } from 'lodash';
 
 type FatherBuildCliOpts = {
   configPath?: string;
@@ -13,7 +13,6 @@ export type WatchReturnType = {
 };
 
 type WatchOpts = {
-  paths?: string[];
   onBuild?: () => void;
 };
 
@@ -26,31 +25,28 @@ class FatherBuildCli {
   constructor(opts: FatherBuildCliOpts) {
     this.opts = opts;
   }
-  watch(watchOpts: WatchOpts): WatchReturnType {
-    const { onBuild, paths: watchPaths = ['src/main', 'package.json'] } = watchOpts;
-    const buildFn = () => {
-      this.build()
-        .then(() => {
-          onBuild?.();
-        })
-        .catch(err => {
-          throw err;
-        });
-    };
-
-    const watcher = chokidar
-      .watch(
-        watchPaths.map(watchPath =>
-          isAbsolute(watchPath) ? watchPath : join(process.cwd(), watchPath),
-        ),
-        { ignoreInitial: true },
-      )
-      .on('all', () => {
-        buildFn();
-      });
-    buildFn();
+  watch(opts: WatchOpts): { exit: () => void } {
+    const proc = spawn(
+      'father-build',
+      [`--src=./src/main`, `--output=.el/main`, '-w', `--config=${this.opts.configPath}`],
+      {
+        stdio: 'pipe',
+        env: { ...process.env, FORCE_COLOR: '1' },
+      },
+    );
+    proc.stdout.pipe(process.stdout);
+    const watcher = chokidar.watch(join(process.cwd(), '.el/main'), { ignoreInitial: true }).on(
+      'all',
+      debounce(() => {
+        opts.onBuild?.();
+      }, 500),
+    );
     return {
-      exit: () => watcher.close(),
+      exit: () => {
+        watcher.close().then(() => {
+          proc.kill();
+        });
+      },
     };
   }
   build(opts?: BuildOpts): Promise<boolean> {

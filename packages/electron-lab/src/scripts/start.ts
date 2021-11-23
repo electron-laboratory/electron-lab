@@ -48,9 +48,7 @@ class ElectronProcessManager {
     );
 
     childProc.on('spawn', () => {
-      log.success(
-        `spawn electron success.${args.inspect ? ` inspecting in port ${args.inspect}...` : ''}`,
-      );
+      log.success(`run electron.${args.inspect ? ` inspecting in port ${args.inspect}...` : ''}`);
       if (args.inspect) {
         log.info(
           `electron main process inspect document: https://www.electronjs.org/zh/docs/latest/tutorial/debugging-main-process`,
@@ -102,9 +100,9 @@ let fatherBuildWatcher: WatchReturnType;
 
 devServer.startCallback(() => {
   log.success(`starting renderer server on http://localhost:${port}`);
-  fatherBuildWatcher = fatherBuildCli.watch({
+  log.info(`running main process compiler...`);
+  fatherBuildCli.watch({
     onBuild: () => {
-      log.success('主进程编译完成');
       manager.start();
     },
   });

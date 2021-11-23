@@ -34,6 +34,9 @@ module.exports = {
     port: PORT || 3901,
   },
   devtool: 'source-map',
+  infrastructureLogging: {
+    level: 'error',
+  },
   module: {
     rules: [
       {
