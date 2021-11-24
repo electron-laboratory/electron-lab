@@ -62,6 +62,8 @@ export default {
               .split('/')
               .slice(0, 2)
               .join('/');
+          } else {
+            finalDepName = finalDepName.split('/')[0];
           }
 
           deps.add(finalDepName);
