@@ -51,6 +51,7 @@ const ignoreDeps = [
   'worker_threads',
   'zlib',
   'node:stream/web', // WebStream
+  'electron-lab',
 ];
 
 export const packageAnalyze = (): void => {
