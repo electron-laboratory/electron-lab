@@ -12,6 +12,7 @@ import { buildVersion, log, generateEntryFile } from '../utils';
 import { getUserConfig } from '../config';
 import yParser from 'yargs-parser';
 import { FatherBuildCli } from '../fatherCli';
+import { packageAnalyze } from '../features/package-analyze';
 
 const args = yParser(process.argv.slice(2));
 let { output } = args;
@@ -121,6 +122,7 @@ const buildElectron = () => {
 
 Promise.all([buildApp, buildRenderer]).then(() => {
   buildVersion();
+  packageAnalyze();
   log.info(`starting build application`);
   buildElectron();
 });

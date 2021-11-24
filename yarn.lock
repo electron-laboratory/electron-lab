@@ -2963,7 +2963,7 @@
 
 "@babel/types@^7.16.0":
   version "7.16.0"
-  resolved "https://registry.npmmirror.com/@babel/types/download/@babel/types-7.16.0.tgz?cache=0&sync_timestamp=1635560908248&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40babel%2Ftypes%2Fdownload%2F%40babel%2Ftypes-7.16.0.tgz#db3b313804f96aadd0b776c4823e127ad67289ba"
+  resolved "https://registry.npmmirror.com/@babel/types/download/@babel/types-7.16.0.tgz#db3b313804f96aadd0b776c4823e127ad67289ba"
   integrity sha1-2zsxOAT5aq3Qt3bEgj4SetZyibo=
   dependencies:
     "@babel/helper-validator-identifier" "^7.15.7"
