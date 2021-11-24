@@ -5,7 +5,7 @@ import proc, { ChildProcess } from 'child_process';
 import electron from 'electron';
 import { resolve, join } from 'path';
 import { merge } from 'webpack-merge';
-import { buildVersion, log } from '../utils';
+import { buildVersion, generateEntryFile, log } from '../utils';
 import { getUserConfig } from '../config';
 import yParser from 'yargs-parser';
 import { FatherBuildCli, WatchReturnType } from '../fatherCli';
@@ -16,9 +16,7 @@ const configPath = resolve(__dirname, '../../config');
 const rendererConfig = require(join(configPath, './webpack.config'));
 const userConfig = getUserConfig();
 
-const fatherBuildCli = new FatherBuildCli({
-  configPath: resolve(__dirname, '../../config/.fatherrc.js'),
-});
+const fatherBuildCli = new FatherBuildCli({});
 
 let { port } = rendererConfig.devServer;
 const appPath = resolve(process.cwd());
@@ -30,7 +28,7 @@ const args = yParser(process.argv.slice(2));
 if (args.port) {
   port = args.port;
 }
-
+generateEntryFile({ port: port as string, mode: 'development' });
 class ElectronProcessManager {
   electronProcess: ChildProcess | undefined;
   start() {

@@ -62,3 +62,42 @@ export const buildVersion = (): void => {
   writeFileSync(resolve(outputPath, filename), fileContent, { encoding: 'utf-8' });
   log.success(`build ${chalk.greenBright('version.json')} success.`);
 };
+
+export const generateEntryFile = ({
+  port,
+  mode,
+}: {
+  port?: string | number;
+  mode: 'production' | 'development';
+}): void => {
+  const windows = getWindows().concat(['index']);
+  const outputPath = join(process.cwd(), '.el');
+  if (!existsSync(outputPath)) {
+    mkdirSync(outputPath, { recursive: true });
+  }
+  if (mode === 'development') {
+    const createEntryString = (name: string) => {
+      return `"${name}":"http://127.0.0.1:${port}/${name}.html"`;
+    };
+    fs.writeFileSync(
+      join(process.cwd(), '.el/entry.js'),
+      `
+      module.exports = {
+        ${windows.map(windowName => createEntryString(windowName)).join(',\n')}
+      }
+    `,
+    );
+  } else {
+    const createEntryString = (name: string) => {
+      return `"${name}":\`file://\${require('path').resolve(__dirname,'./renderer/${name}.html')}\``;
+    };
+    fs.writeFileSync(
+      join(process.cwd(), '.el/entry.js'),
+      `
+      module.exports = {
+        ${windows.map(windowName => createEntryString(windowName)).join(',\n')}
+      }
+    `,
+    );
+  }
+};

@@ -1,11 +1,13 @@
 import { spawn } from 'child_process';
-import { existsSync, readFileSync, rename, renameSync, rmdir } from 'fs';
-import path, { isAbsolute, join } from 'path';
+import { existsSync, readFileSync } from 'fs';
+import path, { resolve, join } from 'path';
 import chokidar from 'chokidar';
 import { debounce } from 'lodash';
 
 type FatherBuildCliOpts = {
   configPath?: string;
+  src?: string;
+  output?: string;
 };
 
 export type WatchReturnType = {
@@ -16,19 +18,24 @@ type WatchOpts = {
   onBuild?: () => void;
 };
 
-type BuildOpts = {
-  cwd?: string;
-};
-
 class FatherBuildCli {
   private opts: FatherBuildCliOpts;
   constructor(opts: FatherBuildCliOpts) {
-    this.opts = opts;
+    this.opts = {
+      configPath: opts.configPath || resolve(__dirname, '../config/.fatherrc.js'),
+      src: opts.src || 'src/main',
+      output: opts.output || '.el/main',
+    };
   }
   watch(opts: WatchOpts): { exit: () => void } {
     const proc = spawn(
       'father-build',
-      [`--src=./src/main`, `--output=.el/main`, '-w', `--config=${this.opts.configPath}`],
+      [
+        `--src=${this.opts.src}`,
+        `--output=${this.opts.output}`,
+        '-w',
+        `--config=${this.opts.configPath}`,
+      ],
       {
         stdio: 'pipe',
         env: { ...process.env, FORCE_COLOR: '1' },
@@ -49,14 +56,17 @@ class FatherBuildCli {
       },
     };
   }
-  build(opts?: BuildOpts): Promise<boolean> {
+  build(): Promise<boolean> {
     return new Promise((resolve, reject) => {
       const args = this.opts.configPath ? [`--config=${this.opts.configPath}`] : [];
-      const proc = spawn('father-build', args.concat([`--ignores=src/renderer`, `--output=.el`]), {
-        stdio: 'pipe',
-        env: { ...process.env, FORCE_COLOR: '1' },
-        cwd: opts?.cwd,
-      });
+      const proc = spawn(
+        'father-build',
+        args.concat([`--output=${this.opts?.output}`, `--src=${this.opts.src}`]),
+        {
+          stdio: 'pipe',
+          env: { ...process.env, FORCE_COLOR: '1' },
+        },
+      );
       proc.stdout.pipe(process.stdout);
       const messages: unknown[] = [];
       proc.on('message', msg => {

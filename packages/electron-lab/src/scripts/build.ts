@@ -8,7 +8,7 @@ import moment from 'moment';
 import { resolve, join } from 'path';
 import { existsSync } from 'fs';
 import chalk from 'chalk';
-import { buildVersion, log } from '../utils';
+import { buildVersion, log, generateEntryFile } from '../utils';
 import { getUserConfig } from '../config';
 import yParser from 'yargs-parser';
 import { FatherBuildCli } from '../fatherCli';
@@ -26,9 +26,7 @@ const rendererConfig = require(join(configPath, './webpack.config'));
 const builderConfig = require(join(configPath, './electron-builder.config'));
 const userConfig = getUserConfig();
 
-const fatherBuildCli = new FatherBuildCli({
-  configPath: resolve(__dirname, '../../config/.fatherrc.js'),
-});
+const fatherBuildCli = new FatherBuildCli({});
 
 const customBuilderConfigPath = join(process.cwd(), './electron-builder.config.js');
 let customBuilderConfig = {};
@@ -49,6 +47,9 @@ const webpackMode = isTestEnv ? 'development' : 'production';
 
 rimraf.sync(join(process.cwd(), 'dist'));
 rimraf.sync(join(process.cwd(), '.el'));
+
+// 构建入口
+generateEntryFile({ mode: 'production' });
 
 // 先构建 webpack 产物
 
