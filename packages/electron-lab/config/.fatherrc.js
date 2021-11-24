@@ -11,21 +11,25 @@ const filesOfDep = {}; // 搜集依赖所在文件
 const generateDeps = toGenerateDeps => {
   writeFileSync(
     resolve(process.cwd(), '.el/dependencies.json'),
-    JSON.stringify({
-      all: Array.from(toGenerateDeps),
-      files: Object.keys(depsOfFile).reduce((memo, current) => {
-        return {
-          ...memo,
-          [current]: Array.from(depsOfFile[current]),
-        };
-      }, {}),
-      deps: Object.keys(filesOfDep).reduce((memo, current) => {
-        return {
-          ...memo,
-          [current]: Array.from(filesOfDep[current]),
-        };
-      }, {}),
-    }),
+    JSON.stringify(
+      {
+        all: Array.from(toGenerateDeps),
+        files: Object.keys(depsOfFile).reduce((memo, current) => {
+          return {
+            ...memo,
+            [current]: Array.from(depsOfFile[current]),
+          };
+        }, {}),
+        deps: Object.keys(filesOfDep).reduce((memo, current) => {
+          return {
+            ...memo,
+            [current]: Array.from(filesOfDep[current]),
+          };
+        }, {}),
+      },
+      null,
+      2,
+    ),
   );
 };
 
