@@ -71,6 +71,11 @@ export const packageAnalyze = (): void => {
     );
   }
 
+  if (userDeps.includes('electron-lab')) {
+    log.error('electron-lab should not in dependencies field!');
+    throw new Error('invalid dependent.');
+  }
+
   if (unInstallPkg.length) {
     log.error(
       `dependencies ${unInstallPkg
