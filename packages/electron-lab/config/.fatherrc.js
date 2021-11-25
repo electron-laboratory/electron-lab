@@ -1,5 +1,6 @@
 const { resolve } = require('path');
 const { writeFileSync } = require('fs');
+const { getPkgName } = require('../lib/utils/getPkgName');
 
 const deps = new Set(); // 搜集所有依赖
 const depsOfFile = {}; // 搜集文件依赖
@@ -45,27 +46,10 @@ export default {
       require('../lib/features/package-analyze/babel-plugin-import-analyze'),
       {
         onCollect: (filename, depName) => {
-          // 项目内部依赖忽略，@依赖抓取前两个
-          let finalDepName = depName;
-          if (depName.startsWith('.')) {
-            // exp: ../node_modules/foo/utils
-            if (!depName.includes('node_modules')) {
-              return;
-            }
-            finalDepName = depName.slice(
-              depName.indexOf('node_modules') + 'node_modules'.length + 1,
-            );
+          let finalDepName = getPkgName(depName);
+          if (!finalDepName) {
+            return;
           }
-
-          if (finalDepName.startsWith('@')) {
-            finalDepName = finalDepName
-              .split('/')
-              .slice(0, 2)
-              .join('/');
-          } else {
-            finalDepName = finalDepName.split('/')[0];
-          }
-
           deps.add(finalDepName);
           if (!depsOfFile[filename]) {
             depsOfFile[filename] = new Set();

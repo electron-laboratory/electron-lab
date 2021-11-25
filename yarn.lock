@@ -3006,11 +3006,6 @@
     global-agent "^2.0.2"
     global-tunnel-ng "^2.7.1"
 
-"@electron/remote@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.nlark.com/@electron/remote/download/@electron/remote-2.0.1.tgz#810cbc595a21f0f94641eb2d7e8264063a3f84de"
-  integrity sha1-gQy8WVoh8PlGQestfoJkBjo/hN4=
-
 "@electron/universal@1.0.4":
   version "1.0.4"
   resolved "https://registry.npmmirror.com/@electron/universal/download/@electron/universal-1.0.4.tgz#231ac246c39d45b80e159bd21c3f9027dcaa10f5"
