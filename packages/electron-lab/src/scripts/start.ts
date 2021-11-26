@@ -6,6 +6,8 @@ import { buildVersion, generateEntryFile, log } from '../utils';
 import yParser from 'yargs-parser';
 const args = yParser(process.argv.slice(2));
 
+console.log(args.engine);
+
 import { FatherBuildCli, WatchReturnType } from '../fatherCli';
 
 const FROM_TEST = !!process.env.FROM_TEST;
@@ -16,11 +18,11 @@ const appPath = resolve(process.cwd());
 
 buildVersion();
 
-const engineName = 'default';
-const engine = require(join(__dirname, '../handler', engineName)).default;
+const engineName = 'umi';
+const engine = require(join(__dirname, '../engines', engineName)).default;
 
 if (!engine) {
-  throw new Error(log.error(`cannot found handler \`${engineName}\`!`));
+  throw new Error(log.error(`cannot found engine \`${engineName}\`!`));
 }
 
 generateEntryFile(engine.getEntry('development'));

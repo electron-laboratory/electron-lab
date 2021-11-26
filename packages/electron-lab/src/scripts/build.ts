@@ -31,11 +31,11 @@ if (existsSync(customBuilderConfigPath)) {
   log.warn('no custom builder config was found.');
 }
 
-const engineName = 'default';
-const engine = require(join(__dirname, '../handler', engineName)).default;
+const engineName = 'umi';
+const engine = require(join(__dirname, '../engines', engineName)).default;
 
 if (!engine) {
-  throw new Error(log.error(`cannot found handler \`${engineName}\`!`));
+  throw new Error(log.error(`cannot found engine \`${engineName}\`!`));
 }
 
 // 清空目录
