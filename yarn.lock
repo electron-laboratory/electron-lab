@@ -11693,10 +11693,10 @@ father-build@1.19.8:
     vinyl-fs "3.0.3"
     yargs-parser "13.1.2"
 
-father-build@^1.20.5-2:
-  version "1.20.5-2"
-  resolved "https://registry.npmmirror.com/father-build/download/father-build-1.20.5-2.tgz#77ed2b63dbe997feaebcac6d2070954af7bb11b8"
-  integrity sha512-gD/xLtpV3Y91sk/y9JS5KurqZd/nQpbTysEK+dPLPHBRmrJ7PZ2TZl+5Buf3fno22L5URRz4oniP9ifGpPSzHQ==
+father-build@^1.20.5-3:
+  version "1.20.5-3"
+  resolved "https://registry.yarnpkg.com/father-build/-/father-build-1.20.5-3.tgz#5f46ed28dce783fb2afb8ecf397fce1e194d9ffd"
+  integrity sha512-4QxBsvciFhx0xFQoNCMNkVg0upRRTGxs4bSggkEEDNluYz70tpx4G6YeePLDX2/MTOx0JG+57dCbkphLIUg1ww==
   dependencies:
     "@babel/core" "7.12.3"
     "@babel/plugin-proposal-class-properties" "7.12.1"

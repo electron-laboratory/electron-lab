@@ -1,4 +1,4 @@
-import { spawn } from 'child_process';
+import { fork } from 'child_process';
 import { existsSync, readFileSync } from 'fs';
 import path, { resolve, join } from 'path';
 import chokidar from 'chokidar';
@@ -23,13 +23,13 @@ class FatherBuildCli {
   constructor(opts: FatherBuildCliOpts) {
     this.opts = {
       configPath: opts.configPath || resolve(__dirname, '../config/.fatherrc.js'),
-      src: opts.src || 'src/main',
-      output: opts.output || '.el/main',
+      src: opts.src || resolve(process.cwd(), 'src', 'main'),
+      output: opts.output || resolve(process.cwd(), '.el', 'main'),
     };
   }
   watch(opts: WatchOpts): { exit: () => void } {
-    const proc = spawn(
-      'father-build',
+    const proc = fork(
+      join(require.resolve('father-build'), '../../bin/father-build.js'),
       [
         `--src=${this.opts.src}`,
         `--output=${this.opts.output}`,
@@ -39,9 +39,10 @@ class FatherBuildCli {
       {
         stdio: 'pipe',
         env: { ...process.env, FORCE_COLOR: '1' },
+        cwd: process.cwd(),
       },
     );
-    proc.stdout.pipe(process.stdout);
+    proc.stdout?.pipe(process.stdout);
     const watcher = chokidar.watch(join(process.cwd(), '.el/main'), { ignoreInitial: true }).on(
       'all',
       debounce(() => {
@@ -59,15 +60,15 @@ class FatherBuildCli {
   build(): Promise<boolean> {
     return new Promise((resolve, reject) => {
       const args = this.opts.configPath ? [`--config=${this.opts.configPath}`] : [];
-      const proc = spawn(
-        'father-build',
+      const proc = fork(
+        join(require.resolve('father-build'), '../../bin/father-build.js'),
         args.concat([`--output=${this.opts?.output}`, `--src=${this.opts.src}`]),
         {
           stdio: 'pipe',
           env: { ...process.env, FORCE_COLOR: '1' },
         },
       );
-      proc.stdout.pipe(process.stdout);
+      proc.stdout?.pipe(process.stdout);
       const messages: unknown[] = [];
       proc.on('message', msg => {
         messages.push(msg);
