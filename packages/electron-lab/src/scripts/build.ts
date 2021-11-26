@@ -1,15 +1,12 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import Webpack from 'webpack';
 import { build, Platform, createTargets } from 'electron-builder';
 import { merge } from 'webpack-merge';
 import rimraf from 'rimraf';
 import lodash from 'lodash';
-import moment from 'moment';
 import { resolve, join } from 'path';
 import { existsSync } from 'fs';
 import chalk from 'chalk';
 import { buildVersion, log, generateEntryFile } from '../utils';
-import { getUserConfig } from '../config';
 import yParser from 'yargs-parser';
 import { FatherBuildCli } from '../fatherCli';
 import { packageAnalyze } from '../features/package-analyze';
@@ -22,10 +19,7 @@ if (!output) {
 log.info(`output dir: ${output}`);
 
 const configPath = resolve(__dirname, '../../config');
-
-const rendererConfig = require(join(configPath, './webpack.config'));
 const builderConfig = require(join(configPath, './electron-builder.config'));
-const userConfig = getUserConfig();
 
 const fatherBuildCli = new FatherBuildCli({});
 
@@ -37,40 +31,35 @@ if (existsSync(customBuilderConfigPath)) {
   log.warn('no custom builder config was found.');
 }
 
-const { productName } = require(join(process.cwd(), 'package.json'));
+const engineName = 'default';
+const engine = require(join(__dirname, '../handler', engineName)).default;
 
-const isTestEnv = !!process.env.BUILD_TEST;
+if (!engine) {
+  throw new Error(log.error(`cannot found handler \`${engineName}\`!`));
+}
 
-const testBuildNameExtra = isTestEnv ? `${moment().format('YYYY-MM-DD_HH-mm-ss')}` : '';
-
-const webpackMode = isTestEnv ? 'development' : 'production';
 // 清空目录
-
 rimraf.sync(join(process.cwd(), 'dist'));
 rimraf.sync(join(process.cwd(), '.el'));
 
 // 构建入口
-generateEntryFile({ mode: 'production' });
+generateEntryFile(engine.getEntry('production'));
 
 // 先构建 webpack 产物
 
-const buildApp = new Promise<void>(resolve => {
-  fatherBuildCli.build().then(() => {
-    resolve();
+const buildApp = () =>
+  new Promise<void>(resolve => {
+    fatherBuildCli.build().then(() => {
+      resolve();
+    });
   });
-});
 
-const buildRenderer = new Promise<void>(resolve => {
-  const viewCompiler = Webpack(
-    merge(rendererConfig, userConfig.renderer, {
-      mode: webpackMode,
-    }),
-  );
-  viewCompiler.run(() => {
-    log.success(`build ${chalk.greenBright('renderer')} successfully.`);
-    resolve();
+const buildRenderer = () =>
+  new Promise<void>(resolve => {
+    engine.build(() => {
+      resolve();
+    });
   });
-});
 
 const buildElectron = () => {
   // 构建 mac 系统包
@@ -87,26 +76,15 @@ const buildElectron = () => {
         electronVersion: '14.0.0',
         directories: { output },
       },
-      isTestEnv
-        ? {
-            productName: `${productName}-test`,
-            dmg: {
-              title: `\${productName}-\${version}-${testBuildNameExtra}`,
-              artifactName: `\${productName}-\${version}-${testBuildNameExtra}.\${ext}`,
-            },
-            nsis: {
-              artifactName: `\${productName}-setup-\${version}-${testBuildNameExtra}.\${ext}`,
-            },
-          }
-        : {
-            dmg: {
-              title: `\${productName}-\${version}`,
-              artifactName: `\${productName}-\${version}.\${ext}`,
-            },
-            nsis: {
-              artifactName: `\${productName}-setup-\${version}.\${ext}`,
-            },
-          },
+      {
+        dmg: {
+          title: `\${productName}-\${version}`,
+          artifactName: `\${productName}-\${version}.\${ext}`,
+        },
+        nsis: {
+          artifactName: `\${productName}-setup-\${version}.\${ext}`,
+        },
+      },
     ),
   })
     .then(() => {
@@ -120,7 +98,7 @@ const buildElectron = () => {
     });
 };
 
-Promise.all([buildApp, buildRenderer]).then(() => {
+Promise.all([buildApp(), buildRenderer()]).then(() => {
   buildVersion();
   packageAnalyze();
   log.info(`starting build application`);

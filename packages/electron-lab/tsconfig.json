@@ -23,6 +23,7 @@
     "config/**/*",
     "index.js",
     "__test__/**/*",
-    "src/features/package-analyze/babel-plugin-import-analyze.js"
+    "src/features/package-analyze/babel-plugin-import-analyze.js",
+    "src/handler/default/webpack.config.js"
   ]
 }
