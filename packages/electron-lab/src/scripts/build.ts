@@ -31,7 +31,7 @@ if (existsSync(customBuilderConfigPath)) {
   log.warn('no custom builder config was found.');
 }
 
-const engineName = args.engine || 'umi';
+const engineName = args.engine || 'default';
 const engine = require(join(__dirname, '../engines', engineName)).default;
 
 if (!engine) {
