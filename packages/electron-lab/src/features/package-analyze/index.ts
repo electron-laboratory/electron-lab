@@ -57,7 +57,7 @@ const ignoreDeps = [
 export const packageAnalyze = (): void => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const userPkg = require(join(process.cwd(), 'package.json'));
-  const userDeps: string[] = Object.keys(userPkg.dependencies);
+  const userDeps: string[] = Object.keys(userPkg.dependencies || {});
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const analyzeResult = require(join(process.cwd(), '.el/dependencies.json'));
   const analyzedDeps: string[] = difference(analyzeResult.all, ignoreDeps);
