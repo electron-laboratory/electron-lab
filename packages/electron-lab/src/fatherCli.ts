@@ -43,6 +43,7 @@ class FatherBuildCli {
       },
     );
     proc.stdout?.pipe(process.stdout);
+    proc.stderr?.pipe(process.stderr);
     const watcher = chokidar.watch(join(process.cwd(), '.el/main'), { ignoreInitial: true }).on(
       'all',
       debounce(() => {
@@ -69,6 +70,7 @@ class FatherBuildCli {
         },
       );
       proc.stdout?.pipe(process.stdout);
+      proc.stderr?.pipe(process.stderr);
       const messages: unknown[] = [];
       proc.on('message', msg => {
         messages.push(msg);
