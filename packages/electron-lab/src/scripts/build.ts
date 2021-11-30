@@ -6,7 +6,7 @@ import lodash from 'lodash';
 import { resolve, join } from 'path';
 import { existsSync } from 'fs';
 import chalk from 'chalk';
-import { buildVersion, log, generateEntryFile } from '../utils';
+import { buildVersion, log, generateEntryFile, generateMd5 } from '../utils';
 import yParser from 'yargs-parser';
 import { FatherBuildCli } from '../fatherCli';
 import { packageAnalyze } from '../features/package-analyze';
@@ -87,7 +87,8 @@ const buildElectron = () => {
       },
     ),
   })
-    .then(() => {
+    .then(res => {
+      generateMd5(res);
       log.success(`build ${chalk.greenBright('application')} successfully.`);
     })
     .catch(err => {

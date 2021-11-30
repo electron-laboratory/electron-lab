@@ -3006,6 +3006,14 @@
     global-agent "^2.0.2"
     global-tunnel-ng "^2.7.1"
 
+<<<<<<< HEAD
+=======
+"@electron/remote@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.nlark.com/@electron/remote/download/@electron/remote-2.0.1.tgz#810cbc595a21f0f94641eb2d7e8264063a3f84de"
+  integrity sha1-gQy8WVoh8PlGQestfoJkBjo/hN4=
+
+>>>>>>> main
 "@electron/universal@1.0.4":
   version "1.0.4"
   resolved "https://registry.npmmirror.com/@electron/universal/download/@electron/universal-1.0.4.tgz#231ac246c39d45b80e159bd21c3f9027dcaa10f5"
@@ -4785,7 +4793,11 @@
 
 "@types/fs-extra@^9.0.7":
   version "9.0.13"
+<<<<<<< HEAD
   resolved "https://registry.nlark.com/@types/fs-extra/download/@types/fs-extra-9.0.13.tgz?cache=0&sync_timestamp=1632252904224&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Ffs-extra%2Fdownload%2F%40types%2Ffs-extra-9.0.13.tgz#7594fbae04fe7f1918ce8b3d213f74ff44ac1f45"
+=======
+  resolved "https://registry.nlark.com/@types/fs-extra/download/@types/fs-extra-9.0.13.tgz#7594fbae04fe7f1918ce8b3d213f74ff44ac1f45"
+>>>>>>> main
   integrity sha1-dZT7rgT+fxkYzos9IT90/0SsH0U=
   dependencies:
     "@types/node" "*"
@@ -4921,7 +4933,11 @@
 
 "@types/node@^12.7.10":
   version "12.20.37"
+<<<<<<< HEAD
   resolved "https://registry.npmmirror.com/@types/node/download/@types/node-12.20.37.tgz?cache=0&sync_timestamp=1636407213131&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40types%2Fnode%2Fdownload%2F%40types%2Fnode-12.20.37.tgz#abb38afa9d6e8a2f627a8cb52290b3c80fbe61ed"
+=======
+  resolved "https://registry.npmmirror.com/@types/node/download/@types/node-12.20.37.tgz?cache=0&sync_timestamp=1636407492316&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40types%2Fnode%2Fdownload%2F%40types%2Fnode-12.20.37.tgz#abb38afa9d6e8a2f627a8cb52290b3c80fbe61ed"
+>>>>>>> main
   integrity sha512-i1KGxqcvJaLQali+WuypQnXwcplhtNtjs66eNsZpp2P2FL/trJJxx/VWsM0YCL2iMoIJrbXje48lvIQAQ4p2ZA==
 
 "@types/node@^14.6.2":
@@ -5206,7 +5222,11 @@
 
 "@types/yargs@^15.0.13":
   version "15.0.14"
+<<<<<<< HEAD
   resolved "https://registry.npmmirror.com/@types/yargs/download/@types/yargs-15.0.14.tgz#26d821ddb89e70492160b66d10a0eb6df8f6fb06"
+=======
+  resolved "https://registry.npmmirror.com/@types/yargs/download/@types/yargs-15.0.14.tgz?cache=0&sync_timestamp=1635745442055&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40types%2Fyargs%2Fdownload%2F%40types%2Fyargs-15.0.14.tgz#26d821ddb89e70492160b66d10a0eb6df8f6fb06"
+>>>>>>> main
   integrity sha1-Jtgh3biecEkhYLZtEKDrbfj2+wY=
   dependencies:
     "@types/yargs-parser" "*"
@@ -6103,7 +6123,11 @@ anymatch@^3.0.0, anymatch@^3.0.3, anymatch@~3.1.2:
 
 app-builder-bin@3.5.12:
   version "3.5.12"
+<<<<<<< HEAD
   resolved "https://registry.nlark.com/app-builder-bin/download/app-builder-bin-3.5.12.tgz?cache=0&sync_timestamp=1631623870922&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fapp-builder-bin%2Fdownload%2Fapp-builder-bin-3.5.12.tgz#bbe174972cc1f481f73d6d92ad47a8b4c7eb4530"
+=======
+  resolved "https://registry.nlark.com/app-builder-bin/download/app-builder-bin-3.5.12.tgz#bbe174972cc1f481f73d6d92ad47a8b4c7eb4530"
+>>>>>>> main
   integrity sha1-u+F0lyzB9IH3PW2SrUeotMfrRTA=
 
 app-builder-lib@22.10.5:
@@ -9862,7 +9886,11 @@ dmg-builder@22.10.5:
 
 dmg-license@^1.0.8:
   version "1.0.9"
+<<<<<<< HEAD
   resolved "https://registry.npmmirror.com/dmg-license/download/dmg-license-1.0.9.tgz#a2fb8d692af0e30b0730b5afc91ed9edc2d9cb4f"
+=======
+  resolved "https://registry.npmmirror.com/dmg-license/download/dmg-license-1.0.9.tgz?cache=0&sync_timestamp=1636450867206&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fdmg-license%2Fdownload%2Fdmg-license-1.0.9.tgz#a2fb8d692af0e30b0730b5afc91ed9edc2d9cb4f"
+>>>>>>> main
   integrity sha1-ovuNaSrw4wsHMLWvyR7Z7cLZy08=
   dependencies:
     "@types/plist" "^3.0.1"
@@ -10492,7 +10520,11 @@ electron-builder@22.10.5:
 
 electron-publish@22.10.5:
   version "22.10.5"
+<<<<<<< HEAD
   resolved "https://registry.npmmirror.com/electron-publish/download/electron-publish-22.10.5.tgz#9cbe46266b6c79d8c6e99840755682e2262d3543"
+=======
+  resolved "https://registry.npmmirror.com/electron-publish/download/electron-publish-22.10.5.tgz?cache=0&sync_timestamp=1636688161909&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Felectron-publish%2Fdownload%2Felectron-publish-22.10.5.tgz#9cbe46266b6c79d8c6e99840755682e2262d3543"
+>>>>>>> main
   integrity sha1-nL5GJmtsedjG6ZhAdVaC4iYtNUM=
   dependencies:
     "@types/fs-extra" "^9.0.7"
@@ -13147,7 +13179,11 @@ hosted-git-info@^2.1.4, hosted-git-info@^2.7.1:
 
 hosted-git-info@^3.0.8:
   version "3.0.8"
+<<<<<<< HEAD
   resolved "https://registry.nlark.com/hosted-git-info/download/hosted-git-info-3.0.8.tgz?cache=0&sync_timestamp=1629094105601&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fhosted-git-info%2Fdownload%2Fhosted-git-info-3.0.8.tgz#6e35d4cc87af2c5f816e4cb9ce350ba87a3f370d"
+=======
+  resolved "https://registry.nlark.com/hosted-git-info/download/hosted-git-info-3.0.8.tgz#6e35d4cc87af2c5f816e4cb9ce350ba87a3f370d"
+>>>>>>> main
   integrity sha1-bjXUzIevLF+Bbky5zjULqHo/Nw0=
   dependencies:
     lru-cache "^6.0.0"
@@ -14709,7 +14745,11 @@ istanbul-reports@^3.0.2:
 
 istextorbinary@^5.12.0:
   version "5.15.0"
+<<<<<<< HEAD
   resolved "https://registry.nlark.com/istextorbinary/download/istextorbinary-5.15.0.tgz#6e726d1dbfb8c2c1c0a50b13fb57103259368c8d"
+=======
+  resolved "https://registry.nlark.com/istextorbinary/download/istextorbinary-5.15.0.tgz?cache=0&sync_timestamp=1627749920637&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fistextorbinary%2Fdownload%2Fistextorbinary-5.15.0.tgz#6e726d1dbfb8c2c1c0a50b13fb57103259368c8d"
+>>>>>>> main
   integrity sha1-bnJtHb+4wsHApQsT+1cQMlk2jI0=
   dependencies:
     binaryextensions "^4.18.0"
@@ -15562,7 +15602,7 @@ js-yaml@^3.13.1, js-yaml@^3.9.0:
 
 js-yaml@^4.0.0:
   version "4.1.0"
-  resolved "https://registry.nlark.com/js-yaml/download/js-yaml-4.1.0.tgz?cache=0&sync_timestamp=1618846844115&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fjs-yaml%2Fdownload%2Fjs-yaml-4.1.0.tgz#c1fb65f8f5017901cdd2c951864ba18458a10602"
+  resolved "https://registry.nlark.com/js-yaml/download/js-yaml-4.1.0.tgz#c1fb65f8f5017901cdd2c951864ba18458a10602"
   integrity sha1-wftl+PUBeQHN0slRhkuhhFihBgI=
   dependencies:
     argparse "^2.0.1"
@@ -20753,7 +20793,11 @@ read-cmd-shim@^1.0.1:
 
 read-config-file@6.0.0:
   version "6.0.0"
+<<<<<<< HEAD
   resolved "https://registry.nlark.com/read-config-file/download/read-config-file-6.0.0.tgz?cache=0&sync_timestamp=1620715381853&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fread-config-file%2Fdownload%2Fread-config-file-6.0.0.tgz#224b5dca6a5bdc1fb19e63f89f342680efdb9299"
+=======
+  resolved "https://registry.nlark.com/read-config-file/download/read-config-file-6.0.0.tgz#224b5dca6a5bdc1fb19e63f89f342680efdb9299"
+>>>>>>> main
   integrity sha1-Iktdympb3B+xnmP4nzQmgO/bkpk=
   dependencies:
     dotenv "^8.2.0"
@@ -23550,7 +23594,11 @@ text-table@0.2.0, text-table@^0.2.0:
 
 textextensions@^5.13.0:
   version "5.14.0"
+<<<<<<< HEAD
   resolved "https://registry.nlark.com/textextensions/download/textextensions-5.14.0.tgz?cache=0&sync_timestamp=1627673310231&other_urls=https%3A%2F%2Fregistry.nlark.com%2Ftextextensions%2Fdownload%2Ftextextensions-5.14.0.tgz#a6ff6aee5faaa751e6157d422c722a2bfd59eedf"
+=======
+  resolved "https://registry.nlark.com/textextensions/download/textextensions-5.14.0.tgz#a6ff6aee5faaa751e6157d422c722a2bfd59eedf"
+>>>>>>> main
   integrity sha1-pv9q7l+qp1HmFX1CLHIqK/1Z7t8=
 
 thread-loader@^2.1.2:
