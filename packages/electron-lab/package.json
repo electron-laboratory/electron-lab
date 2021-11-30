@@ -32,12 +32,14 @@
     "moment": "^2.29.1",
     "rimraf": "^3.0.2",
     "style-loader": "^3.2.1",
-    "umi": "^3.5.20",
     "url-loader": "^4.1.1",
     "webpack": "^5.51.1",
     "webpack-dev-server": "^4.1.0",
     "webpack-merge": "^5.8.0",
     "yargs-parser": "^20.2.9"
+  },
+  "peerDependencies": {
+    "umi": "^3.5.20"
   },
   "files": [
     "lib",
@@ -45,6 +47,7 @@
     "config"
   ],
   "devDependencies": {
+    "@babel/plugin-syntax-top-level-await": "^7.14.5",
     "@babel/types": "^7.16.0",
     "@types/lodash": "^4.14.172",
     "@types/node": "^12.7.10",
