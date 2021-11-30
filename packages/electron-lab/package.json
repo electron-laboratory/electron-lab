@@ -1,6 +1,6 @@
 {
   "name": "electron-lab",
-  "version": "0.2.0-5",
+  "version": "0.2.0-6",
   "main": "index.js",
   "typings": "./lib/index.d.ts",
   "bin": {
@@ -21,9 +21,7 @@
     "moment": "^2.29.1",
     "rimraf": "^3.0.2",
     "webpack-merge": "^5.8.0",
-    "yargs-parser": "^20.2.9"
-  },
-  "peerDependencies": {
+    "yargs-parser": "^20.2.9",
     "@babel/core": "^7.15.4",
     "@babel/preset-react": "^7.14.5",
     "@babel/preset-typescript": "^7.15.0",
