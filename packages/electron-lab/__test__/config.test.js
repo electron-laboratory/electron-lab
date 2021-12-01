@@ -1,18 +1,9 @@
+const { spawnSync } = require('child_process');
 const Webpack = require('webpack');
-const mainConfig = require('../config/main.webpack.config');
-const rendererConfig = require('../config/renderer.webpack.config');
+const { join } = require('path');
+const rendererConfig = require('../lib/engines/default/webpack.config');
 
-describe('The WebPack configuration should work fine', () => {
-  it('main', () => {
-    expect(() => {
-      try {
-        const complier = Webpack(mainConfig);
-      } catch (error) {
-        throw error;
-      }
-    }).not.toThrowError();
-  });
-
+describe('The WebPack configuration should work fine.', () => {
   it('renderer', () => {
     expect(() => {
       try {
@@ -21,5 +12,17 @@ describe('The WebPack configuration should work fine', () => {
         throw error;
       }
     }).not.toThrowError();
+  });
+
+  it('main', () => {
+    const { error } = spawnSync(
+      'father-build',
+      [`--config=${join(__dirname, '../config/.fatherrc.js')}`, `--src="./main"`],
+      {
+        cwd: join(__dirname, './fixtures'),
+        encoding: 'utf-8',
+      },
+    );
+    expect(error).toBe(undefined);
   });
 });

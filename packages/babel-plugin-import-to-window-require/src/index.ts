@@ -1,5 +1,5 @@
-import { NodePath } from '@babel/traverse';
-import { ImportDeclaration } from '@babel/types';
+import type { NodePath } from '@babel/traverse';
+import type { ImportDeclaration } from '@babel/types';
 
 type Opts = {
   packages: string[];
