@@ -22,6 +22,8 @@
     "examples",
     "config/**/*",
     "index.js",
-    "__test__/**/*"
+    "__test__/**/*",
+    "src/features/package-analyze/babel-plugin-import-analyze.js",
+    "src/engines/default/webpack.config.js"
   ]
 }

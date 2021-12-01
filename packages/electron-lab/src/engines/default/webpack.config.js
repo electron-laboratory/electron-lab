@@ -2,7 +2,7 @@
 const { resolve } = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { getWindows } = require('../lib/utils');
+const { getWindows } = require('../../utils');
 
 const PORT = process.env.PORT;
 
@@ -28,12 +28,15 @@ const htmlWebpackPlugins = Object.keys(entry).map(entryName => {
 module.exports = {
   entry: entry,
   output: {
-    path: resolve(process.cwd(), '.webpack/renderer'),
+    path: resolve(process.cwd(), '.el/renderer'),
   },
   devServer: {
     port: PORT || 3901,
   },
   devtool: 'source-map',
+  infrastructureLogging: {
+    level: 'error',
+  },
   module: {
     rules: [
       {
@@ -101,9 +104,9 @@ module.exports = {
   },
   plugins: [
     ...htmlWebpackPlugins,
-    new MiniCssExtractPlugin({
-      filename: '[name].css',
-      chunkFilename: '[id].css',
-    }),
+    // new MiniCssExtractPlugin({
+    //   filename: '[name].css',
+    //   chunkFilename: '[id].css',
+    // }),
   ],
 };

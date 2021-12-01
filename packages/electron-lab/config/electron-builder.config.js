@@ -6,7 +6,7 @@ module.exports = {
     mirror: 'https://npm.taobao.org/mirrors/electron/',
   },
   productName,
-  files: ['.webpack/**'],
+  files: ['.el/**'],
   mac: {
     category: 'public.app-category.developer-tools',
     target: 'dmg',
