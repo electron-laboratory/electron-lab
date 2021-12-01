@@ -17,6 +17,7 @@ const appPath = resolve(process.cwd());
 buildVersion();
 
 const engineName = args.engine || 'default';
+
 const engine = require(join(__dirname, '../engines', engineName)).default;
 
 if (!engine) {
