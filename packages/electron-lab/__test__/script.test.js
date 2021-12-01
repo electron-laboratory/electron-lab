@@ -1,18 +1,24 @@
 const { fork } = require('child_process');
-const { readdirSync, existsSync } = require('fs');
+const { readdirSync, existsSync, writeFileSync, mkdirSync } = require('fs');
 const { join, resolve } = require('path');
 const rimraf = require('rimraf');
 
 describe('The script should execute normally.', () => {
   rimraf.sync(join(__dirname, './fixtures/.el'));
 
-  jest.setTimeout(5000);
-  it('Start script', done => {
+  jest.setTimeout(10000);
+  /** 为了避免测试报错，写入一个假包 */
+  const TEST_PACKAGE_DIR = join(__dirname, './fixtures', './node_modules', 'some-package');
+  mkdirSync(TEST_PACKAGE_DIR, { recursive: true });
+  writeFileSync(join(TEST_PACKAGE_DIR, 'index.js'), '');
+  writeFileSync(join(TEST_PACKAGE_DIR, 'package.json'), JSON.stringify({ main: './index.js' }));
+
+  it('Start script', (done) => {
     const proc = fork(resolve(__dirname, '../lib/scripts/start.js'), {
       cwd: join(__dirname, './fixtures'),
       env: { ...process.env, FROM_TEST: 1 },
     });
-    proc.on('exit', code => {
+    proc.on('exit', (code) => {
       expect(code).toEqual(0);
       done();
     });
@@ -31,12 +37,12 @@ describe('The script should execute normally.', () => {
   jest.setTimeout(60000);
   rimraf.sync(join(__dirname, './fixtures/.el'));
 
-  it('Build script should fail while lose dependencies.', done => {
+  it('Build script should fail while lose dependencies.', (done) => {
     const proc = fork(resolve(__dirname, '../lib/scripts/build.js'), {
       cwd: join(__dirname, './fixtures'),
       env: { ...process.env, FROM_TEST: 1 },
     });
-    proc.on('exit', code => {
+    proc.on('exit', (code) => {
       expect(code).toEqual(1);
       done();
     });

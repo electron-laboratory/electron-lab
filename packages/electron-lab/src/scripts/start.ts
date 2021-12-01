@@ -42,18 +42,17 @@ class ElectronProcessManager {
       },
     );
 
-    childProc.on('spawn', () => {
-      log.success(`run electron.${args.inspect ? ` inspecting in port ${args.inspect}...` : ''}`);
-      if (args.inspect) {
-        log.info(
-          `electron main process inspect document: https://www.electronjs.org/zh/docs/latest/tutorial/debugging-main-process`,
-        );
-      }
-      if (FROM_TEST) {
-        childProc.kill();
-        process.exit(0);
-      }
-    });
+    log.success(`run electron.${args.inspect ? ` inspecting in port ${args.inspect}...` : ''}`);
+    if (args.inspect) {
+      log.info(
+        `electron main process inspect document: https://www.electronjs.org/zh/docs/latest/tutorial/debugging-main-process`,
+      );
+    }
+    if (FROM_TEST) {
+      childProc.kill();
+      fatherBuildWatcher.exit();
+      process.exit(0);
+    }
 
     childProc.on('error', err => {
       log.error(err.message);
@@ -63,6 +62,7 @@ class ElectronProcessManager {
     });
 
     childProc.stdout?.pipe(process.stdout);
+    childProc.stderr?.pipe(process.stderr);
 
     this.electronProcess = childProc;
   }
@@ -89,6 +89,7 @@ engine?.start(() => {
 const exit = async () => {
   manager.kill();
   fatherBuildWatcher?.exit();
+  process.exit(0);
 };
 
 process.on('SIGINT', () => {
@@ -99,3 +100,6 @@ process.on('SIGINT', () => {
 process.on('beforeExit', () => {
   exit();
 });
+
+process.on('unhandledRejection', () => process.exit(1));
+process.on('uncaughtException', () => process.exit(1));

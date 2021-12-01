@@ -1,11 +1,11 @@
-import Webpack from 'webpack';
-import WebpackDevServer from 'webpack-dev-server';
+/* eslint-disable @typescript-eslint/no-var-requires */
 import { merge } from 'webpack-merge';
 import { getUserConfig } from './config';
 import { definedHandler, getWindows } from '../../utils';
 import { HandlerType } from '../../types';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+const WebpackDevServer = require('webpack-dev-server');
+const Webpack = require('webpack');
 const rendererConfig = require('./webpack.config');
 const userConfig = getUserConfig();
 const finalConfig = merge(rendererConfig, userConfig.renderer, {
@@ -13,7 +13,7 @@ const finalConfig = merge(rendererConfig, userConfig.renderer, {
 });
 const { port } = finalConfig.devServer;
 const viewCompiler = Webpack(finalConfig);
-const devServer = new WebpackDevServer(finalConfig.devServer, viewCompiler as any);
+const devServer = new WebpackDevServer({ ...finalConfig.devServer }, viewCompiler);
 
 const handler: HandlerType = {
   start: cb => {

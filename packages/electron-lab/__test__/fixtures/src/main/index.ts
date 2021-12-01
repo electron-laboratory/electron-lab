@@ -7,7 +7,7 @@ const createWindow = (): void => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({});
   // and load the index.html of the app.
-  mainWindow.loadURL(require(join('../.el/entry.js')).index);
+  mainWindow.loadURL(require(join('../entry.js')).index);
   mainWindow.webContents.openDevTools();
 };
 app.on('ready', createWindow);

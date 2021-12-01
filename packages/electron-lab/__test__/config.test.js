@@ -1,7 +1,7 @@
 const { spawnSync } = require('child_process');
 const Webpack = require('webpack');
 const { join } = require('path');
-const rendererConfig = require('../config/webpack.config');
+const rendererConfig = require('../lib/engines/default/webpack.config');
 
 describe('The WebPack configuration should work fine.', () => {
   it('renderer', () => {
