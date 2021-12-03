@@ -23,7 +23,7 @@ const handler: HandlerType = {
   },
   build: cb => {
     const viewCompiler = Webpack(
-      merge(rendererConfig, userConfig.renderer, {
+      merge(finalConfig, {
         mode: 'production',
       }),
     );

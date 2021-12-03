@@ -16,7 +16,7 @@ describe('The script should execute normally.', () => {
   it('Start script', (done) => {
     const proc = fork(resolve(__dirname, '../lib/scripts/start.js'), {
       cwd: join(__dirname, './fixtures'),
-      env: { ...process.env, FROM_TEST: 1 },
+      env: { ...process.env, FROM_TEST: 1, PORT: 3990 },
     });
     proc.on('exit', (code) => {
       expect(code).toEqual(0);

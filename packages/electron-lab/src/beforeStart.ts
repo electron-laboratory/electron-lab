@@ -2,13 +2,25 @@ import { join } from 'path';
 import chalk from 'chalk';
 import { existsSync, readFileSync, appendFileSync, writeFileSync } from 'fs';
 import { log } from './utils';
+import yParser from 'yargs-parser';
+const args = yParser(process.argv.slice(2));
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const userPackageJson = require(join(process.cwd(), 'package.json'));
 const { main } = userPackageJson;
-if (!main || main !== '.el/main/index.js') {
-  throw chalk.bgRedBright('Error') +
-    ` ${chalk.red('main')} field in package.json must be ${chalk.red('".el/main/index.js"')}`;
+if (!main) {
+  console.log(
+    chalk.bgRedBright('Error') + ` ${chalk.red('main')} field in package.json must not be empty`,
+  );
+  throw new Error('empty entry');
+} else {
+  if (!args.output && main !== '.el/main/index.js') {
+    console.log(
+      chalk.bgRedBright('Error') +
+        ` ${chalk.red('main')} field in package.json must be ${chalk.red('".el/main/index.js"')}`,
+    );
+    throw new Error('wrong entry');
+  }
 }
 
 const npmRcPath = join(process.cwd(), '.npmrc');

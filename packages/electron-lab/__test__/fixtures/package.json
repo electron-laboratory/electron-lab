@@ -1,5 +1,8 @@
 {
   "name": "test",
   "version": "1.0.0",
-  "main": ".el/main"
+  "main": ".el/main",
+  "scripts": {
+    "start": "node ../../lib/scripts/start.js"
+  }
 }

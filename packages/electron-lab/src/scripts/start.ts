@@ -10,7 +10,10 @@ import { FatherBuildCli, WatchReturnType } from '../fatherCli';
 
 const FROM_TEST = !!process.env.FROM_TEST;
 
-const fatherBuildCli = new FatherBuildCli({});
+const fatherBuildCli = new FatherBuildCli({
+  src: args.src,
+  output: args.output,
+});
 
 const appPath = resolve(process.cwd());
 
@@ -101,5 +104,11 @@ process.on('beforeExit', () => {
   exit();
 });
 
-process.on('unhandledRejection', () => process.exit(1));
-process.on('uncaughtException', () => process.exit(1));
+process.on('uncaughtException', err => {
+  console.log(err.stack);
+  process.exit(1);
+});
+process.on('unhandledRejection', (err: any) => {
+  console.log(err.stack || err.message);
+  process.exit(1);
+});

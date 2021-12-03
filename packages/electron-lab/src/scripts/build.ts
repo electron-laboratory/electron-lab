@@ -21,7 +21,7 @@ log.info(`output dir: ${output}`);
 const configPath = resolve(__dirname, '../../config');
 const builderConfig = require(join(configPath, './electron-builder.config'));
 
-const fatherBuildCli = new FatherBuildCli({});
+const fatherBuildCli = new FatherBuildCli({ src: args.src, output: args.output });
 
 const customBuilderConfigPath = join(process.cwd(), './electron-builder.config.js');
 let customBuilderConfig = {};
@@ -106,5 +106,11 @@ Promise.all([buildApp(), buildRenderer()]).then(() => {
   buildElectron();
 });
 
-process.on('uncaughtException', () => process.exit(1));
-process.on('unhandledRejection', () => process.exit(1));
+process.on('uncaughtException', err => {
+  console.log(err.stack);
+  process.exit(1);
+});
+process.on('unhandledRejection', (err: any) => {
+  console.log(err.stack || err.message);
+  process.exit(1);
+});
