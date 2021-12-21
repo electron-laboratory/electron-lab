@@ -70,7 +70,6 @@ const buildElectron = () => {
   build({
     targets: createTargets(targets),
     config: lodash.merge(
-      customBuilderConfig,
       builderConfig,
       {
         electronVersion: '14.0.0',
@@ -85,6 +84,7 @@ const buildElectron = () => {
           artifactName: `\${productName}-setup-\${version}.\${ext}`,
         },
       },
+      customBuilderConfig,
     ),
   })
     .then(res => {
