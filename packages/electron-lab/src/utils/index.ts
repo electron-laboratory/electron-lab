@@ -119,3 +119,11 @@ export const generateMd5 = (files: string[]): void => {
     log.success(`build ${chalk.greenBright('md5')} success:${EOL}${md5Filenames.join(EOL)}`);
   }
 };
+
+export const buildEnvJson = (): void => {
+  const outputPath = join(process.cwd(), '.el');
+  if (!existsSync(outputPath)) {
+    mkdirSync(outputPath, { recursive: true });
+  }
+  writeFileSync(join(outputPath, 'env.json'), JSON.stringify(process.env));
+};
