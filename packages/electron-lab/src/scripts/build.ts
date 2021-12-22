@@ -6,7 +6,7 @@ import lodash from 'lodash';
 import { resolve, join } from 'path';
 import { existsSync } from 'fs';
 import chalk from 'chalk';
-import { buildVersion, log, generateEntryFile, generateMd5 } from '../utils';
+import { buildVersion, log, generateEntryFile, generateMd5, buildEnvJson } from '../utils';
 import yParser from 'yargs-parser';
 import { FatherBuildCli } from '../fatherCli';
 import { packageAnalyze } from '../features/package-analyze';
@@ -101,6 +101,7 @@ const buildElectron = () => {
 
 Promise.all([buildApp(), buildRenderer()]).then(() => {
   buildVersion();
+  buildEnvJson();
   packageAnalyze();
   log.info(`starting build application`);
   buildElectron();

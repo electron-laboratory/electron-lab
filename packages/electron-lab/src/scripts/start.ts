@@ -2,7 +2,7 @@
 import proc, { ChildProcess } from 'child_process';
 import electron from 'electron';
 import { join, resolve } from 'path';
-import { buildVersion, generateEntryFile, log } from '../utils';
+import { buildEnvJson, buildVersion, generateEntryFile, log } from '../utils';
 import yParser from 'yargs-parser';
 const args = yParser(process.argv.slice(2));
 
@@ -16,7 +16,7 @@ const fatherBuildCli = new FatherBuildCli({
 });
 
 const appPath = resolve(process.cwd());
-
+buildEnvJson();
 buildVersion();
 
 const engineName = args.engine || 'default';
