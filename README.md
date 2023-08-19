@@ -1,3 +1,5 @@
+> 已废弃，请移步到 https://github.com/xiefengnian/umijs-electron-plugin
+
 # electron-lab
 
 electron-lab 致力于探索 electron 研发的最佳实践，让开发者可以快速启动以及开发一个 electron 应用。
